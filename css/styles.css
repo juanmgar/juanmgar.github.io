@@ -49,6 +49,12 @@ main > .intro {
 	font-weight: 600;
 }
 
+main > .parrafo {
+	font-family: 'Reem Kufi', sans-serif;
+	font-size: 2.0em;
+	font-weight: 600;
+}
+
 main > .tagline {
 	font-size: 1.5rem;
 	margin: 1.5rem 0;
