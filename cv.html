@@ -1,196 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Juan Manuel Sierra García">
-
-  <title>Curriculum Vitae | JuanMa Sierra García</title>
-  <link rel="icon" href="favicon.ico" type="image/png" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
-
-  <!-- Bootstrap & FontAwesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="https://kit.fontawesome.com/8bcd15b62e.js" crossorigin="anonymous"></script>
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/themes/yellow-black.css">
-</head>
-
-<body>
-  <main>
-    <div class="container">
-      <h1 class="intro">Curriculum Vitae</h1>
-
-      <section>
-        <h2 class="tagline">Official Degrees</h2>
-        <ul id="list-degrees" class="cv-list"></ul>
-      </section>
-
-      <section>
-        <h2 class="tagline">Languages</h2>
-        <ul id="list-languages" class="cv-list"></ul>
-      </section>
-
-      <section>
-        <h2 class="tagline">Other Certificates</h2>
-
-        <div>
-          <h3>Computer Science</h3>
-          <ul id="list-it" class="cv-list"></ul>
-        </div>
-
-        <div>
-          <h3>Science</h3>
-          <ul id="list-science" class="cv-list"></ul>
-        </div>
-
-        <div>
-          <h3>Other</h3>
-          <ul id="list-misc" class="cv-list"></ul>
-        </div>
-      </section>
-
-      <p class="parrafo"><a href="index.html">← Back to main page</a></p>
-    </div>
-  </main>
-
-  <script>
-    const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-
-    fetch(SHEET_URL)
-      .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
-      .then(text => {
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-        const headers = json.table.cols.map(col => col.label.trim());
-
-        const colIndex = {
-          english: headers.indexOf("English"),
-          institution: headers.indexOf("Institution"),
-          year: headers.indexOf("Year"),
-          area: headers.indexOf("Area"),
-          type: headers.indexOf("Type"),
-          published: headers.indexOf("Published"),
-          url: headers.indexOf("URL")
-        };
-
-        const listDegrees = document.getElementById("list-degrees");
-        const listLanguages = document.getElementById("list-languages");
-        const listIT = document.getElementById("list-it");
-        const listScience = document.getElementById("list-science");
-        const listMisc = document.getElementById("list-misc");
-
-        rows.forEach(row => {
-          const title = row.c[colIndex.english]?.v || "";
-          const entity = row.c[colIndex.institution]?.v || "";
-          const year = row.c[colIndex.year]?.v || "";
-          const area = (row.c[colIndex.area]?.v || "").toLowerCase();
-          const type = (row.c[colIndex.type]?.v || "").toLowerCase();
-          const published = (row.c[colIndex.published]?.v || "").toLowerCase();
-          const url = row.c[colIndex.url]?.v || "";
-
-          if (published !== "yes") return;
-
-          const li = document.createElement("li");
-          li.innerHTML = `<strong>${title}</strong> <span class="cv-meta">(${year}) — ${entity}</span><span class="cv-type"> [${type}]</span>`;
-
-          if (url) {
-            const link = document.createElement("a");
-            link.href = url;
-            link.target = "_blank";
-            link.textContent = " View certificate";
-            link.style.marginLeft = "8px";
-            li.appendChild(link);
-          }
-
-          if (type === "degree") {
-            listDegrees.appendChild(li);
-          } else if (area === "languages") {
-            listLanguages.appendChild(li);
-          } else {
-            switch (area) {
-              case "computer science":
-                listIT.appendChild(li);
-                break;
-              case "science":
-                listScience.appendChild(li);
-                break;
-              default:
-                listMisc.appendChild(li);
-            }
-          }
-        });
-      })
-      .catch(err => {
-        document.querySelector("main").innerHTML += `<p class="parrafo">Could not load CV data: ${err}</p>`;
-      });
-  </script>
-
-  <style>
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  .cv-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 2rem;
-  }
-
-  .cv-list li {
-    font-size: 1.1em;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-    text-align: left;
-  }
-
-  .cv-meta {
-    font-style: italic;
-    font-weight: 300;
-  }
-
-  .cv-type {
-    font-style: italic;
-    color: #444;
-    margin-left: 0.3em;
-    font-size: 0.95em;
-  }
-
-  h1.intro {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  h2.tagline {
-    font-size: 1.75rem;
-    border-bottom: 2px solid #000;
-    padding-bottom: 0.2rem;
-    margin-top: 3rem;
-    font-family: 'Reem Kufi', sans-serif;
-  }
-
-  h3 {
-    font-size: 1.3rem;
-    margin-top: 2rem;
-    font-family: 'Reem Kufi', sans-serif;
-  }
-
-  a {
-    text-decoration: underline;
-  }
-</style>
-
-</body>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="Juan Manuel Sierra García">
+      <title>Curriculum Vitae | JuanMa Sierra García</title>
+      <link rel="icon" href="favicon.ico" type="image/png" />
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
+      <!-- Bootstrap & FontAwesome -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      <script src="https://kit.fontawesome.com/8bcd15b62e.js" crossorigin="anonymous"></script>
+      <!-- Custom Styles -->
+      <link rel="stylesheet" href="css/reset.css">
+      <link rel="stylesheet" href="css/styles.css">
+      <link rel="stylesheet" href="css/themes/yellow-black.css">
+   </head>
+   <body>
+      <main>
+         <div style="text-align: right; margin: 10px 20px;">
+            <button id="langToggle" class="btn btn-default">ES</button>
+         </div>
+         <div class="container">
+            <h1 class="intro">Curriculum Vitae</h1>
+            <section>
+               <h2 class="tagline">Official Degrees</h2>
+               <ul id="list-degrees" class="cv-list"></ul>
+            </section>
+            <section>
+               <h2 class="tagline">Languages</h2>
+               <ul id="list-languages" class="cv-list"></ul>
+            </section>
+            <section>
+               <h2 class="tagline">Other Certificates</h2>
+               <div>
+                  <h3>Computer Science</h3>
+                  <ul id="list-it" class="cv-list"></ul>
+               </div>
+               <div>
+                  <h3>Science</h3>
+                  <ul id="list-science" class="cv-list"></ul>
+               </div>
+               <div>
+                  <h3>Other</h3>
+                  <ul id="list-misc" class="cv-list"></ul>
+               </div>
+            </section>
+            <p class="parrafo"><a href="index.html">← Back to main page</a></p>
+         </div>
+      </main>
+      <script>
+         const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
+         const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+         let currentLang = 'English';
+         
+         const renderCV = (data) => {
+           const rows = data.table.rows;
+           const headers = data.table.cols.map(col => col.label.trim());
+         
+           const colIndex = {
+             spanish: headers.indexOf("Spanish"),
+             english: headers.indexOf("English"),
+             institution: headers.indexOf("Institution"),
+             year: headers.indexOf("Year"),
+             area: headers.indexOf("Area"),
+             type: headers.indexOf("Type"),
+             published: headers.indexOf("Published"),
+             url: headers.indexOf("URL")
+           };
+         
+           // Vaciar las listas por si se cambia de idioma
+           document.getElementById("list-degrees").innerHTML = "";
+           document.getElementById("list-languages").innerHTML = "";
+           document.getElementById("list-it").innerHTML = "";
+           document.getElementById("list-science").innerHTML = "";
+           document.getElementById("list-misc").innerHTML = "";
+         
+           rows.forEach(row => {
+             const title = row.c[colIndex[currentLang.toLowerCase()]]?.v || "";
+             const entity = row.c[colIndex.institution]?.v || "";
+             const year = row.c[colIndex.year]?.f || "";
+             const area = (row.c[colIndex.area]?.v || "").toLowerCase();
+             const type = (row.c[colIndex.type]?.v || "").toLowerCase();
+             const published = (row.c[colIndex.published]?.v || "").toLowerCase();
+             const url = row.c[colIndex.url]?.v || "";
+         
+             if (published !== "yes") return;
+         
+             const displayText = `${title} (${year}) - ${entity}`;
+             const li = document.createElement("li");
+             li.textContent = displayText;
+         
+             if (url) {
+               const link = document.createElement("a");
+               link.href = url;
+               link.target = "_blank";
+               link.textContent = " [View certificate]";
+               li.appendChild(link);
+             }
+         
+             const listDegrees   = document.getElementById("list-degrees");
+             const listLanguages = document.getElementById("list-languages");
+             const listIT        = document.getElementById("list-it");
+             const listScience   = document.getElementById("list-science");
+             const listMisc      = document.getElementById("list-misc");
+         
+             if (type === "título") {
+               listDegrees.appendChild(li);
+             } else if (area === "languages") {
+               listLanguages.appendChild(li);
+             } else {
+               switch (area) {
+                 case "computer science":
+                   listIT.appendChild(li);
+                   break;
+                 case "science":
+                   listScience.appendChild(li);
+                   break;
+                 default:
+                   listMisc.appendChild(li);
+               }
+             }
+           });
+         };
+         
+         fetch(SHEET_URL)
+           .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
+           .then(text => {
+             const json = JSON.parse(text.substr(47).slice(0, -2));
+             renderCV(json);
+         
+             document.getElementById("langToggle").addEventListener("click", () => {
+               currentLang = currentLang === "English" ? "Spanish" : "English";
+               document.getElementById("langToggle").textContent = currentLang === "English" ? "ES" : "EN";
+               renderCV(json);
+             });
+           })
+           .catch(error => {
+             console.error("Error loading CV: ", error);
+             document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
+           });
+      </script>
+      <style>
+         .container {
+         max-width: 800px;
+         margin: 0 auto;
+         padding: 2rem 1rem;
+         }
+         .cv-list {
+         list-style-type: none;
+         padding-left: 0;
+         margin-bottom: 2rem;
+         }
+         .cv-list li {
+         font-size: 1.1em;
+         margin-bottom: 1rem;
+         line-height: 1.5;
+         text-align: left;
+         }
+         .cv-meta {
+         font-style: italic;
+         font-weight: 300;
+         }
+         .cv-type {
+         font-style: italic;
+         color: #444;
+         margin-left: 0.3em;
+         font-size: 0.95em;
+         }
+         h1.intro {
+         font-size: 2.5rem;
+         text-align: center;
+         margin-bottom: 1rem;
+         }
+         h2.tagline {
+         font-size: 1.75rem;
+         border-bottom: 2px solid #000;
+         padding-bottom: 0.2rem;
+         margin-top: 3rem;
+         font-family: 'Reem Kufi', sans-serif;
+         }
+         h3 {
+         font-size: 1.3rem;
+         margin-top: 2rem;
+         font-family: 'Reem Kufi', sans-serif;
+         }
+         a {
+         text-decoration: underline;
+         }
+      </style>
+   </body>
 </html>
