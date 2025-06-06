@@ -22,7 +22,7 @@
    <body>
       <main>
          <div style="text-align: right; margin: 10px 20px;">
-            <button id="langToggle" class="btn btn-default">ES</button>
+            <button id="toggle-lang" class="btn btn-default">Español</button>
          </div>
          <div class="container">
             <h1 class="intro">Curriculum Vitae</h1>
@@ -55,11 +55,35 @@
       <script>
          const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
          const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-         let currentLang = 'English';
          
-         const renderCV = (data) => {
-           const rows = data.table.rows;
+         let currentLang = "en"; // Default
+         
+         const sectionTitles = {
+           en: {
+             degrees: "Official Degrees",
+             languages: "Languages",
+             certificates: "Other Certificates",
+             cs: "Computer Science",
+             sci: "Science",
+             misc: "Other",
+             back: "← Back to main page",
+             langBtn: "Español"
+           },
+           es: {
+             degrees: "Titulaciones Oficiales",
+             languages: "Idiomas",
+             certificates: "Otros Certificados",
+             cs: "Informática",
+             sci: "Ciencias",
+             misc: "Otros",
+             back: "← Volver a la página principal",
+             langBtn: "English"
+           }
+         };
+         
+         function renderCV(data, lang = "en") {
            const headers = data.table.cols.map(col => col.label.trim());
+           const rows = data.table.rows;
          
            const colIndex = {
              spanish: headers.indexOf("Spanish"),
@@ -72,41 +96,34 @@
              url: headers.indexOf("URL")
            };
          
-           // Vaciar las listas por si se cambia de idioma
-           document.getElementById("list-degrees").innerHTML = "";
-           document.getElementById("list-languages").innerHTML = "";
-           document.getElementById("list-it").innerHTML = "";
-           document.getElementById("list-science").innerHTML = "";
-           document.getElementById("list-misc").innerHTML = "";
+           const get = (row, idx) => row.c[idx]?.v || "";
+         
+           const listDegrees   = document.getElementById("list-degrees");
+           const listLanguages = document.getElementById("list-languages");
+           const listIT        = document.getElementById("list-it");
+           const listScience   = document.getElementById("list-science");
+           const listMisc      = document.getElementById("list-misc");
+         
+           [listDegrees, listLanguages, listIT, listScience, listMisc].forEach(ul => ul.innerHTML = "");
          
            rows.forEach(row => {
-             const title = row.c[colIndex[currentLang.toLowerCase()]]?.v || "";
-             const entity = row.c[colIndex.institution]?.v || "";
-             const year = row.c[colIndex.year]?.f || "";
-             const area = (row.c[colIndex.area]?.v || "").toLowerCase();
-             const type = (row.c[colIndex.type]?.v || "").toLowerCase();
-             const published = (row.c[colIndex.published]?.v || "").toLowerCase();
-             const url = row.c[colIndex.url]?.v || "";
+             if ((get(row, colIndex.published) || "").toLowerCase() !== "yes") return;
          
-             if (published !== "yes") return;
+             const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
+             const inst = get(row, colIndex.institution);
+             const year = get(row, colIndex.year);
+             const area = (get(row, colIndex.area) || "").toLowerCase();
+             const type = (get(row, colIndex.type) || "").toLowerCase();
+             const url  = get(row, colIndex.url);
          
-             const displayText = `${title} (${year}) - ${entity}`;
              const li = document.createElement("li");
-             li.textContent = displayText;
          
-             if (url) {
-               const link = document.createElement("a");
-               link.href = url;
-               link.target = "_blank";
-               link.textContent = " [View certificate]";
-               li.appendChild(link);
-             }
-         
-             const listDegrees   = document.getElementById("list-degrees");
-             const listLanguages = document.getElementById("list-languages");
-             const listIT        = document.getElementById("list-it");
-             const listScience   = document.getElementById("list-science");
-             const listMisc      = document.getElementById("list-misc");
+             li.innerHTML = `
+               <span class="cv-title">${title}</span>. 
+               <span class="cv-institution">${inst}</span> 
+               (<span class="cv-year">${year}</span>)
+               ${url ? `<a href="${url}" target="_blank"> [${lang === "es" ? "Ver certificado" : "View certificate"}]</a>` : ""}
+             `;
          
              if (type === "título") {
                listDegrees.appendChild(li);
@@ -115,9 +132,11 @@
              } else {
                switch (area) {
                  case "computer science":
+                 case "informática":
                    listIT.appendChild(li);
                    break;
                  case "science":
+                 case "ciencias":
                    listScience.appendChild(li);
                    break;
                  default:
@@ -125,18 +144,26 @@
                }
              }
            });
-         };
+         
+           document.querySelector("#degrees h2").textContent = sectionTitles[lang].degrees;
+           document.querySelector("#languages h2").textContent = sectionTitles[lang].languages;
+           document.querySelector("#other-certificates h2").textContent = sectionTitles[lang].certificates;
+           document.querySelector("#area-it h3").textContent = sectionTitles[lang].cs;
+           document.querySelector("#area-science h3").textContent = sectionTitles[lang].sci;
+           document.querySelector("#area-misc h3").textContent = sectionTitles[lang].misc;
+           document.querySelector("main p a").textContent = sectionTitles[lang].back;
+           document.getElementById("toggle-lang").textContent = sectionTitles[lang].langBtn;
+         }
          
          fetch(SHEET_URL)
            .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
            .then(text => {
              const json = JSON.parse(text.substr(47).slice(0, -2));
-             renderCV(json);
+             renderCV(json, currentLang);
          
-             document.getElementById("langToggle").addEventListener("click", () => {
-               currentLang = currentLang === "English" ? "Spanish" : "English";
-               document.getElementById("langToggle").textContent = currentLang === "English" ? "ES" : "EN";
-               renderCV(json);
+             document.getElementById("toggle-lang").addEventListener("click", () => {
+               currentLang = currentLang === "en" ? "es" : "en";
+               renderCV(json, currentLang);
              });
            })
            .catch(error => {
@@ -190,6 +217,15 @@
          }
          a {
          text-decoration: underline;
+         }
+         .cv-title {
+         font-weight: bold;
+         }
+         .cv-institution {
+         font-style: italic;
+         }
+         .cv-year {
+         color: #666;
          }
       </style>
    </body>
