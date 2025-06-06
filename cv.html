@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Curriculum Vitae | JuanMa Sierra García</title>
+    <link rel="icon" href="favicon.ico" type="image/png"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes/yellow-black.css">
+</head>
+
+<body>
+<main class="container">
+    <h1>Curriculum Vitae</h1>
+    <p class="parrafo">Listado actualizado de formaciones, cursos y titulaciones:</p>
+    <ul id="cv-list" class="list-unstyled"></ul>
+    <p><a href="index.html">← Volver a la página principal</a></p>
+</main>
+
+<script>
+    const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+    fetch(SHEET_URL)
+        .then(res => res.ok ? res.text() : Promise.reject("Error al cargar la hoja"))
+        .then(text => {
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+            const list = document.getElementById("cv-list");
+
+            rows.forEach(row => {
+                const titulo = row.c[0]?.v || "";
+                const entidad = row.c[1]?.v || "";
+                const fecha = row.c[2]?.f || "";
+                const url = row.c[3]?.v || "";
+
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${titulo}</strong> — ${entidad} (${fecha}) ${url ? ` - <a href="${url}" target="_blank">Ver certificado</a>` : ""}`;
+                list.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error("Error cargando hoja: ", error);
+            document.getElementById("cv-list").innerHTML = "<li>No se pudo cargar el CV.</li>";
+        });
+</script>
+</body>
+
+</html>
