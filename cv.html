@@ -1,73 +1,120 @@
-<script>
-  const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
-  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Curriculum Vitae | JuanMa Sierra García</title>
+</head>
+<body>
+  <main>
+    <h1>Curriculum Vitae</h1>
 
-  fetch(SHEET_URL)
-    .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
-    .then(text => {
-      const json = JSON.parse(text.substr(47).slice(0, -2));
-      const rows = json.table.rows;
-      const headers = json.table.cols.map(col => col.label.trim());
+    <!-- Section: Official Degrees -->
+    <section id="degrees">
+      <h2>Official Degrees</h2>
+      <ul id="list-degrees"></ul>
+    </section>
 
-      const colIndex = {
-        english: headers.indexOf("English"),
-        institution: headers.indexOf("Institution"),
-        year: headers.indexOf("Year"),
-        area: headers.indexOf("Area"),
-        type: headers.indexOf("Type"),
-        published: headers.indexOf("Published"),
-        url: headers.indexOf("URL")
-      };
+    <!-- Section: Languages -->
+    <section id="languages">
+      <h2>Languages</h2>
+      <ul id="list-languages"></ul>
+    </section>
 
-      const listDegrees   = document.getElementById("list-degrees");
-      const listLanguages = document.getElementById("list-languages");
-      const listIT        = document.getElementById("list-it");
-      const listScience   = document.getElementById("list-science");
-      const listMisc      = document.getElementById("list-misc");
+    <!-- Section: Other Certificates -->
+    <section id="other-certificates">
+      <h2>Other Certificates</h2>
 
-      rows.forEach(row => {
-        const titleEN   = row.c[colIndex.english]?.v || "";
-        const entity    = row.c[colIndex.institution]?.v || "";
-        const year      = row.c[colIndex.year]?.v || "";
-        const area      = (row.c[colIndex.area]?.v || "").toLowerCase();
-        const type      = (row.c[colIndex.type]?.v || "").toLowerCase();
-        const published = (row.c[colIndex.published]?.v || "").toLowerCase();
-        const url       = row.c[colIndex.url]?.v || "";
+      <div id="area-it">
+        <h3>Computer Science</h3>
+        <ul id="list-it"></ul>
+      </div>
 
-        if (published !== "yes") return; // solo mostrar certificados publicados
+      <div id="area-science">
+        <h3>Science</h3>
+        <ul id="list-science"></ul>
+      </div>
 
-        const displayText = `${titleEN} (${year}) - ${entity}`;
-        const li = document.createElement("li");
-        li.textContent = displayText;
+      <div id="area-misc">
+        <h3>Other</h3>
+        <ul id="list-misc"></ul>
+      </div>
+    </section>
 
-        if (url) {
-          const link = document.createElement("a");
-          link.href = url;
-          link.target = "_blank";
-          link.textContent = " [View certificate]";
-          li.appendChild(link);
-        }
+    <p><a href="index.html">← Back to main page</a></p>
+  </main>
 
-        if (type === "título") {
-          listDegrees.appendChild(li);
-        } else if (area === "languages") {
-          listLanguages.appendChild(li);
-        } else {
-          switch (area) {
-            case "computer science":
-              listIT.appendChild(li);
-              break;
-            case "science":
-              listScience.appendChild(li);
-              break;
-            default:
-              listMisc.appendChild(li);
+  <script>
+    const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+    fetch(SHEET_URL)
+      .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
+      .then(text => {
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+        const headers = json.table.cols.map(col => col.label.trim());
+
+        const colIndex = {
+          english: headers.indexOf("English"),
+          institution: headers.indexOf("Institution"),
+          year: headers.indexOf("Year"),
+          area: headers.indexOf("Area"),
+          type: headers.indexOf("Type"),
+          published: headers.indexOf("Published"),
+          url: headers.indexOf("URL")
+        };
+
+        const listDegrees   = document.getElementById("list-degrees");
+        const listLanguages = document.getElementById("list-languages");
+        const listIT        = document.getElementById("list-it");
+        const listScience   = document.getElementById("list-science");
+        const listMisc      = document.getElementById("list-misc");
+
+        rows.forEach(row => {
+          const titleEN   = row.c[colIndex.english]?.v || "";
+          const entity    = row.c[colIndex.institution]?.v || "";
+          const year      = row.c[colIndex.year]?.f || "";
+          const area      = (row.c[colIndex.area]?.v || "").toLowerCase();
+          const type      = (row.c[colIndex.type]?.v || "").toLowerCase();
+          const published = (row.c[colIndex.published]?.v || "").toLowerCase();
+          const url       = row.c[colIndex.url]?.v || "";
+
+          if (published !== "yes") return;
+
+          const displayText = `${titleEN} (${year}) - ${entity}`;
+          const li = document.createElement("li");
+          li.textContent = displayText;
+
+          if (url) {
+            const link = document.createElement("a");
+            link.href = url;
+            link.target = "_blank";
+            link.textContent = " [View certificate]";
+            li.appendChild(link);
           }
-        }
+
+          if (type === "título") {
+            listDegrees.appendChild(li);
+          } else if (area === "languages") {
+            listLanguages.appendChild(li);
+          } else {
+            switch (area) {
+              case "computer science":
+                listIT.appendChild(li);
+                break;
+              case "science":
+                listScience.appendChild(li);
+                break;
+              default:
+                listMisc.appendChild(li);
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error loading CV: ", error);
+        document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
       });
-    })
-    .catch(error => {
-      console.error("Error loading CV: ", error);
-      document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
-    });
-</script>
+  </script>
+</body>
+</html>
