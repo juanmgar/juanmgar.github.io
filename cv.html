@@ -1,110 +1,73 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Curriculum Vitae | JuanMa Sierra García</title>
-</head>
-<body>
-  <main>
-    <h1>Curriculum Vitae</h1>
+<script>
+  const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
+  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-    <!-- Sección de Títulos Oficiales -->
-    <section id="titulos">
-      <h2>Títulos Oficiales</h2>
-      <ul id="lista-titulos"></ul>
-    </section>
+  fetch(SHEET_URL)
+    .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
+    .then(text => {
+      const json = JSON.parse(text.substr(47).slice(0, -2));
+      const rows = json.table.rows;
+      const headers = json.table.cols.map(col => col.label.trim());
 
-    <!-- Sección de Idiomas -->
-    <section id="idiomas">
-      <h2>Idiomas</h2>
-      <ul id="lista-idiomas"></ul>
-    </section>
+      const colIndex = {
+        english: headers.indexOf("English"),
+        institution: headers.indexOf("Institution"),
+        year: headers.indexOf("Year"),
+        area: headers.indexOf("Area"),
+        type: headers.indexOf("Type"),
+        published: headers.indexOf("Published"),
+        url: headers.indexOf("URL")
+      };
 
-    <!-- Sección de Otros Certificados -->
-    <section id="otros-certificados">
-      <h2>Otros Certificados</h2>
+      const listDegrees   = document.getElementById("list-degrees");
+      const listLanguages = document.getElementById("list-languages");
+      const listIT        = document.getElementById("list-it");
+      const listScience   = document.getElementById("list-science");
+      const listMisc      = document.getElementById("list-misc");
 
-      <div id="area-informatica">
-        <h3>Informática</h3>
-        <ul id="lista-informatica"></ul>
-      </div>
+      rows.forEach(row => {
+        const titleEN   = row.c[colIndex.english]?.v || "";
+        const entity    = row.c[colIndex.institution]?.v || "";
+        const year      = row.c[colIndex.year]?.v || "";
+        const area      = (row.c[colIndex.area]?.v || "").toLowerCase();
+        const type      = (row.c[colIndex.type]?.v || "").toLowerCase();
+        const published = (row.c[colIndex.published]?.v || "").toLowerCase();
+        const url       = row.c[colIndex.url]?.v || "";
 
-      <div id="area-ciencias">
-        <h3>Ciencias</h3>
-        <ul id="lista-ciencias"></ul>
-      </div>
+        if (published !== "yes") return; // solo mostrar certificados publicados
 
-      <div id="area-otros">
-        <h3>Otros</h3>
-        <ul id="lista-otros"></ul>
-      </div>
-    </section>
+        const displayText = `${titleEN} (${year}) - ${entity}`;
+        const li = document.createElement("li");
+        li.textContent = displayText;
 
-    <p><a href="index.html">← Volver a la página principal</a></p>
-  </main>
+        if (url) {
+          const link = document.createElement("a");
+          link.href = url;
+          link.target = "_blank";
+          link.textContent = " [View certificate]";
+          li.appendChild(link);
+        }
 
-  <script>
-    const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-
-    fetch(SHEET_URL)
-      .then(res => res.ok ? res.text() : Promise.reject("Error al cargar la hoja"))
-      .then(text => {
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-
-        const listaTitulos     = document.getElementById("lista-titulos");
-        const listaIdiomas     = document.getElementById("lista-idiomas");
-        const listaInformatica = document.getElementById("lista-informatica");
-        const listaCiencias    = document.getElementById("lista-ciencias");
-        const listaOtros       = document.getElementById("lista-otros");
-
-        rows.forEach(row => {
-          const titulo    = row.c[0]?.v || "";
-          const entidad   = row.c[1]?.v || "";
-          const anio      = row.c[2]?.v || "";  // solo el año, no intentar parsear
-          const area      = (row.c[3]?.v || "").toLowerCase();
-          const tipo      = (row.c[4]?.v || "").toLowerCase();
-          const publicado = (row.c[5]?.v || "").toLowerCase();
-          const url       = row.c[6]?.v || "";
-
-          if (publicado !== "si") return; // ignorar no publicados
-
-          const texto = `${titulo} (${anio}) - ${entidad}`;
-          const li = document.createElement("li");
-          li.textContent = texto;
-
-          // preparar para añadir URL en el futuro
-          if (url) {
-            const enlace = document.createElement("a");
-            enlace.href = url;
-            enlace.target = "_blank";
-            enlace.textContent = " [Ver certificado]";
-            li.appendChild(enlace);
+        if (type === "título") {
+          listDegrees.appendChild(li);
+        } else if (area === "languages") {
+          listLanguages.appendChild(li);
+        } else {
+          switch (area) {
+            case "computer science":
+              listIT.appendChild(li);
+              break;
+            case "science":
+              listScience.appendChild(li);
+              break;
+            default:
+              listMisc.appendChild(li);
           }
-
-          if (tipo === "título") {
-            listaTitulos.appendChild(li);
-          } else if (area === "idiomas") {
-            listaIdiomas.appendChild(li);
-          } else {
-            switch (area) {
-              case "informática":
-                listaInformatica.appendChild(li);
-                break;
-              case "ciencias":
-                listaCiencias.appendChild(li);
-                break;
-              default:
-                listaOtros.appendChild(li);
-            }
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Error cargando hoja: ", error);
-        document.getElementById("lista-titulos").innerHTML = "<li>No se pudo cargar el CV.</li>";
+        }
       });
-  </script>
-</body>
-</html>
+    })
+    .catch(error => {
+      console.error("Error loading CV: ", error);
+      document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
+    });
+</script>
