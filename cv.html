@@ -24,116 +24,66 @@
     <link rel="stylesheet" href="css/themes/yellow-black.css">
 
 <body>
-  <main>
-    <h1>Curriculum Vitae</h1>
+	<main>
+		<h1 class="intro">Curriculum Vitae</h1>
+		<p class="tagline">List of verified academic and professional credentials</p>
 
-    <!-- Section: Official Degrees -->
-    <section id="degrees">
-      <h2>Official Degrees</h2>
-      <ul id="list-degrees"></ul>
-    </section>
+		<section id="cv-content">
+			<!-- Aquí se insertará dinámicamente el contenido desde Google Sheets -->
+		</section>
 
-    <!-- Section: Languages -->
-    <section id="languages">
-      <h2>Languages</h2>
-      <ul id="list-languages"></ul>
-    </section>
+		<footer style="margin-top: 2rem;">
+			<a href="index.html">← Back to main page</a>
+		</footer>
+	</main>
 
-    <!-- Section: Other Certificates -->
-    <section id="other-certificates">
-      <h2>Other Certificates</h2>
+	<script>
+		const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiX1Y5TdHO8BVWX2-vpCiUt8dMlnJeu13QtTJKihzewAvF5EmVU4PZrEWW8mx5GaeLxV_jBbwBXDos/gviz/tq?tqx=out:json';
 
-      <div id="area-it">
-        <h3>Computer Science</h3>
-        <ul id="list-it"></ul>
-      </div>
+		fetch(url)
+			.then(response => response.text())
+			.then(text => JSON.parse(text.substr(47).slice(0, -2)))
+			.then(data => {
+				const rows = data.table.rows;
+				const types = {};
 
-      <div id="area-science">
-        <h3>Science</h3>
-        <ul id="list-science"></ul>
-      </div>
+				// Agrupar por tipo
+				for (const row of rows) {
+					const c = row.c;
+					if (!c || c[6].v !== 'YES') continue;
 
-      <div id="area-misc">
-        <h3>Other</h3>
-        <ul id="list-misc"></ul>
-      </div>
-    </section>
+					const type = c[5].v;
+					const title = c[1]?.v || '[No Title]';
+					const institution = c[2]?.v || '[No Institution]';
+					const year = c[3]?.v || '';
+					const url = c[7]?.v || '';
+					
+					if (!types[type]) types[type] = [];
+					types[type].push({ title, institution, year, url });
+				}
 
-    <p><a href="index.html">← Back to main page</a></p>
-  </main>
+				const container = document.getElementById('cv-content');
 
-  <script>
-    const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+				Object.keys(types).forEach(type => {
+					const section = document.createElement('section');
+					section.innerHTML = `<h2 style="margin-top:2rem">${type}</h2>`;
+					
+					const ul = document.createElement('ul');
+					ul.style.listStyle = 'none';
+					ul.style.padding = 0;
 
-    fetch(SHEET_URL)
-      .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
-      .then(text => {
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-        const headers = json.table.cols.map(col => col.label.trim());
+					types[type].sort((a, b) => b.year - a.year).forEach(item => {
+						const li = document.createElement('li');
+						const urlText = item.url ? ` – <a href="${item.url}" target="_blank">View certificate</a>` : '';
+						li.innerHTML = `<strong>${item.title}</strong> (${item.year}) — ${item.institution}${urlText}`;
+						li.style.marginBottom = '1rem';
+						ul.appendChild(li);
+					});
 
-        const colIndex = {
-          english: headers.indexOf("English"),
-          institution: headers.indexOf("Institution"),
-          year: headers.indexOf("Year"),
-          area: headers.indexOf("Area"),
-          type: headers.indexOf("Type"),
-          published: headers.indexOf("Published"),
-          url: headers.indexOf("URL")
-        };
-
-        const listDegrees   = document.getElementById("list-degrees");
-        const listLanguages = document.getElementById("list-languages");
-        const listIT        = document.getElementById("list-it");
-        const listScience   = document.getElementById("list-science");
-        const listMisc      = document.getElementById("list-misc");
-
-        rows.forEach(row => {
-          const titleEN   = row.c[colIndex.english]?.v || "";
-          const entity    = row.c[colIndex.institution]?.v || "";
-          const year      = row.c[colIndex.year]?.f || "";
-          const area      = (row.c[colIndex.area]?.v || "").toLowerCase();
-          const type      = (row.c[colIndex.type]?.v || "").toLowerCase();
-          const published = (row.c[colIndex.published]?.v || "").toLowerCase();
-          const url       = row.c[colIndex.url]?.v || "";
-
-          if (published !== "yes") return;
-
-          const displayText = `${titleEN} (${year}) - ${entity}`;
-          const li = document.createElement("li");
-          li.textContent = displayText;
-
-          if (url) {
-            const link = document.createElement("a");
-            link.href = url;
-            link.target = "_blank";
-            link.textContent = " [View certificate]";
-            li.appendChild(link);
-          }
-
-          if (type === "título") {
-            listDegrees.appendChild(li);
-          } else if (area === "languages") {
-            listLanguages.appendChild(li);
-          } else {
-            switch (area) {
-              case "computer science":
-                listIT.appendChild(li);
-                break;
-              case "science":
-                listScience.appendChild(li);
-                break;
-              default:
-                listMisc.appendChild(li);
-            }
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Error loading CV: ", error);
-        document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
-      });
-  </script>
+					section.appendChild(ul);
+					container.appendChild(section);
+				});
+			});
+	</script>
 </body>
 </html>
