@@ -92,24 +92,37 @@
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
     fetch(SHEET_URL)
-        .then(res => res.text())
+        .then(res => res.ok ? res.text() : Promise.reject("Error al cargar la hoja"))
         .then(text => {
             const json = JSON.parse(text.substr(47).slice(0, -2));
             const rows = json.table.rows;
             const list = document.getElementById("cv-list");
 
             rows.forEach(row => {
-                const [titulo, entidad, fecha, url] = row.c.map(c => c?.v || "");
+                const [titulo, entidad, fechaRaw, url] = row.c.map(c => c?.v || "");
+
+                // Detecta si la fecha es un objeto tipo fecha de Google y la formatea
+                let fecha = "";
+                if (typeof fechaRaw === "object" && fechaRaw instanceof Date === false) {
+                    const date = new Date(fechaRaw);
+                    fecha = date.toLocaleDateString("es-ES", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric"
+                    });
+                } else {
+                    fecha = fechaRaw;
+                }
+
                 const li = document.createElement("li");
                 li.innerHTML = `<strong>${titulo}</strong> — ${entidad} (${fecha}) ${url ? ` - <a href="${url}" target="_blank">Ver certificado</a>` : ""}`;
                 list.appendChild(li);
             });
         })
         .catch(error => {
-            document.getElementById("cv-list").innerHTML = "<li>Error cargando el CV.</li>";
-            console.error(error);
+            console.error("Error cargando hoja: ", error);
+            document.getElementById("cv-list").innerHTML = "<li>No se pudo cargar el CV.</li>";
         });
 </script>
-
 
 </html>
