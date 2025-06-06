@@ -8,34 +8,36 @@
   <main>
     <h1>Curriculum Vitae</h1>
 
+    <!-- Sección de Títulos Oficiales -->
     <section id="titulos">
       <h2>Títulos Oficiales</h2>
       <ul id="lista-titulos"></ul>
     </section>
 
+    <!-- Sección de Idiomas -->
+    <section id="idiomas">
+      <h2>Idiomas</h2>
+      <ul id="lista-idiomas"></ul>
+    </section>
+
+    <!-- Sección de Otros Certificados -->
     <section id="otros-certificados">
-      <h2>Otros Certificados por Área</h2>
+      <h2>Otros Certificados</h2>
+
       <div id="area-informatica">
         <h3>Informática</h3>
         <ul id="lista-informatica"></ul>
       </div>
-      <div id="area-idiomas">
-        <h3>Idiomas</h3>
-        <ul id="lista-idiomas"></ul>
-      </div>
+
       <div id="area-ciencias">
         <h3>Ciencias</h3>
         <ul id="lista-ciencias"></ul>
       </div>
+
       <div id="area-otros">
         <h3>Otros</h3>
         <ul id="lista-otros"></ul>
       </div>
-    </section>
-
-    <section id="no-publicados">
-      <h2>Certificados no publicados</h2>
-      <ul id="lista-no-publicados"></ul>
     </section>
 
     <p><a href="index.html">← Volver a la página principal</a></p>
@@ -51,24 +53,28 @@
         const json = JSON.parse(text.substr(47).slice(0, -2));
         const rows = json.table.rows;
 
-        const listaTitulos = document.getElementById("lista-titulos");
+        const listaTitulos     = document.getElementById("lista-titulos");
+        const listaIdiomas     = document.getElementById("lista-idiomas");
         const listaInformatica = document.getElementById("lista-informatica");
-        const listaIdiomas = document.getElementById("lista-idiomas");
-        const listaCiencias = document.getElementById("lista-ciencias");
-        const listaOtros = document.getElementById("lista-otros");
-        const listaNoPublicados = document.getElementById("lista-no-publicados");
+        const listaCiencias    = document.getElementById("lista-ciencias");
+        const listaOtros       = document.getElementById("lista-otros");
 
         rows.forEach(row => {
-          const [
-            titulo, entidad, fecha, area, tipo, publicado, url, notas
-          ] = row.c.map(c => c?.v || "");
+          const titulo    = row.c[0]?.v || "";
+          const entidad   = row.c[1]?.v || "";
+          const anio      = row.c[2]?.v || "";  // solo el año, no intentar parsear
+          const area      = (row.c[3]?.v || "").toLowerCase();
+          const tipo      = (row.c[4]?.v || "").toLowerCase();
+          const publicado = (row.c[5]?.v || "").toLowerCase();
+          const url       = row.c[6]?.v || "";
 
-          const anio = fecha ? new Date(fecha).getFullYear() : "";
+          if (publicado !== "si") return; // ignorar no publicados
+
           const texto = `${titulo} (${anio}) - ${entidad}`;
           const li = document.createElement("li");
-
-          // Prepara para mostrar URL más adelante
           li.textContent = texto;
+
+          // preparar para añadir URL en el futuro
           if (url) {
             const enlace = document.createElement("a");
             enlace.href = url;
@@ -77,26 +83,21 @@
             li.appendChild(enlace);
           }
 
-          if (publicado.toLowerCase() === "si") {
-            if (tipo.toLowerCase() === "título") {
-              listaTitulos.appendChild(li);
-            } else {
-              switch (area.toLowerCase()) {
-                case "informática":
-                  listaInformatica.appendChild(li);
-                  break;
-                case "idiomas":
-                  listaIdiomas.appendChild(li);
-                  break;
-                case "ciencias":
-                  listaCiencias.appendChild(li);
-                  break;
-                default:
-                  listaOtros.appendChild(li);
-              }
-            }
+          if (tipo === "título") {
+            listaTitulos.appendChild(li);
+          } else if (area === "idiomas") {
+            listaIdiomas.appendChild(li);
           } else {
-            listaNoPublicados.appendChild(li);
+            switch (area) {
+              case "informática":
+                listaInformatica.appendChild(li);
+                break;
+              case "ciencias":
+                listaCiencias.appendChild(li);
+                break;
+              default:
+                listaOtros.appendChild(li);
+            }
           }
         });
       })
