@@ -1,54 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Curriculum Vitae | JuanMa Sierra García</title>
-    <link rel="icon" href="favicon.ico" type="image/png"/>
-
-    <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/themes/yellow-black.css">
+  <meta charset="UTF-8">
+  <title>Curriculum Vitae | JuanMa Sierra García</title>
 </head>
-
 <body>
-<main class="container">
+  <main>
     <h1>Curriculum Vitae</h1>
-    <p class="parrafo">Listado actualizado de formaciones, cursos y titulaciones:</p>
-    <ul id="cv-list" class="list-unstyled"></ul>
-    <p><a href="index.html">← Volver a la página principal</a></p>
-</main>
 
-<script>
+    <section id="titulos">
+      <h2>Títulos Oficiales</h2>
+      <ul id="lista-titulos"></ul>
+    </section>
+
+    <section id="otros-certificados">
+      <h2>Otros Certificados por Área</h2>
+      <div id="area-informatica">
+        <h3>Informática</h3>
+        <ul id="lista-informatica"></ul>
+      </div>
+      <div id="area-idiomas">
+        <h3>Idiomas</h3>
+        <ul id="lista-idiomas"></ul>
+      </div>
+      <div id="area-ciencias">
+        <h3>Ciencias</h3>
+        <ul id="lista-ciencias"></ul>
+      </div>
+      <div id="area-otros">
+        <h3>Otros</h3>
+        <ul id="lista-otros"></ul>
+      </div>
+    </section>
+
+    <section id="no-publicados">
+      <h2>Certificados no publicados</h2>
+      <ul id="lista-no-publicados"></ul>
+    </section>
+
+    <p><a href="index.html">← Volver a la página principal</a></p>
+  </main>
+
+  <script>
     const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
     fetch(SHEET_URL)
-        .then(res => res.ok ? res.text() : Promise.reject("Error al cargar la hoja"))
-        .then(text => {
-            const json = JSON.parse(text.substr(47).slice(0, -2));
-            const rows = json.table.rows;
-            const list = document.getElementById("cv-list");
+      .then(res => res.ok ? res.text() : Promise.reject("Error al cargar la hoja"))
+      .then(text => {
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        const rows = json.table.rows;
 
-            rows.forEach(row => {
-                const titulo = row.c[0]?.v || "";
-                const entidad = row.c[1]?.v || "";
-                const fecha = row.c[2]?.f || "";
-                const url = row.c[3]?.v || "";
+        const listaTitulos = document.getElementById("lista-titulos");
+        const listaInformatica = document.getElementById("lista-informatica");
+        const listaIdiomas = document.getElementById("lista-idiomas");
+        const listaCiencias = document.getElementById("lista-ciencias");
+        const listaOtros = document.getElementById("lista-otros");
+        const listaNoPublicados = document.getElementById("lista-no-publicados");
 
-                const li = document.createElement("li");
-                li.innerHTML = `<strong>${titulo}</strong> — ${entidad} (${fecha}) ${url ? ` - <a href="${url}" target="_blank">Ver certificado</a>` : ""}`;
-                list.appendChild(li);
-            });
-        })
-        .catch(error => {
-            console.error("Error cargando hoja: ", error);
-            document.getElementById("cv-list").innerHTML = "<li>No se pudo cargar el CV.</li>";
+        rows.forEach(row => {
+          const [
+            titulo, entidad, fecha, area, tipo, publicado, url, notas
+          ] = row.c.map(c => c?.v || "");
+
+          const anio = fecha ? new Date(fecha).getFullYear() : "";
+          const texto = `${titulo} (${anio}) - ${entidad}`;
+          const li = document.createElement("li");
+
+          // Prepara para mostrar URL más adelante
+          li.textContent = texto;
+          if (url) {
+            const enlace = document.createElement("a");
+            enlace.href = url;
+            enlace.target = "_blank";
+            enlace.textContent = " [Ver certificado]";
+            li.appendChild(enlace);
+          }
+
+          if (publicado.toLowerCase() === "si") {
+            if (tipo.toLowerCase() === "título") {
+              listaTitulos.appendChild(li);
+            } else {
+              switch (area.toLowerCase()) {
+                case "informática":
+                  listaInformatica.appendChild(li);
+                  break;
+                case "idiomas":
+                  listaIdiomas.appendChild(li);
+                  break;
+                case "ciencias":
+                  listaCiencias.appendChild(li);
+                  break;
+                default:
+                  listaOtros.appendChild(li);
+              }
+            }
+          } else {
+            listaNoPublicados.appendChild(li);
+          }
         });
-</script>
+      })
+      .catch(error => {
+        console.error("Error cargando hoja: ", error);
+        document.getElementById("lista-titulos").innerHTML = "<li>No se pudo cargar el CV.</li>";
+      });
+  </script>
 </body>
-
 </html>
