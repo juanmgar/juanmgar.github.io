@@ -33,6 +33,11 @@
 </head>
 
 <body>
+<section id="cv" class="container">
+    <h2>Curriculum Vitae</h2>
+    <p class="parrafo">Listado actualizado de formaciones, cursos y titulaciones que he realizado:</p>
+    <ul id="cv-list" class="list-unstyled"></ul>
+</section>
 <main>
     <div itemscope itemtype="http://schema.org/Person">
         <div class="intro">Hello, I'm <span itemprop="givenName">JuanMa</span> <span
@@ -82,5 +87,29 @@
     </div>
 </main>
 </body>
+<script>
+    const SHEET_ID = '2PACX-1vQiX1Y5TdHO8BVWX2-vpCiUt8dMlnJeu13QtTJKihzewAvF5EmVU4PZrEWW8mx5GaeLxV_jBbwBXDos';
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+    fetch(SHEET_URL)
+        .then(res => res.text())
+        .then(text => {
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+            const list = document.getElementById("cv-list");
+
+            rows.forEach(row => {
+                const [titulo, entidad, fecha, url] = row.c.map(c => c?.v || "");
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${titulo}</strong> — ${entidad} (${fecha}) ${url ? ` - <a href="${url}" target="_blank">Ver certificado</a>` : ""}`;
+                list.appendChild(li);
+            });
+        })
+        .catch(error => {
+            document.getElementById("cv-list").innerHTML = "<li>Error cargando el CV.</li>";
+            console.error(error);
+        });
+</script>
+
 
 </html>
