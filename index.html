@@ -33,11 +33,6 @@
 </head>
 
 <body>
-<section id="cv" class="container">
-    <h2>Curriculum Vitae</h2>
-    <p class="parrafo">Listado actualizado de formaciones, cursos y titulaciones que he realizado:</p>
-    <ul id="cv-list" class="list-unstyled"></ul>
-</section>
 <main>
     <div itemscope itemtype="http://schema.org/Person">
         <div class="intro">Hello, I'm <span itemprop="givenName">JuanMa</span> <span
@@ -86,32 +81,11 @@
         </div>
     </div>
 </main>
+<section class="container">
+    <h2>Curriculum Vitae</h2>
+    <p class="parrafo">Puedes consultar mi formación y certificaciones en la siguiente página:</p>
+    <p><a class="btn btn-primary" href="cv.html">Ver mi CV actualizado</a></p>
+</section>
 </body>
-<script>
-    const SHEET_ID = '1A2qHdYFzmOcLU4-xqKwREIbchy-H3CRWzin_Ht2GV9k';
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
-    fetch(SHEET_URL)
-        .then(res => res.ok ? res.text() : Promise.reject("Error al cargar la hoja"))
-        .then(text => {
-            const json = JSON.parse(text.substr(47).slice(0, -2));
-            const rows = json.table.rows;
-            const list = document.getElementById("cv-list");
-
-            rows.forEach(row => {
-                const titulo = row.c[0]?.v || "";
-                const entidad = row.c[1]?.v || "";
-                const fecha = row.c[2]?.f || ""; // usamos 'f' en lugar de 'v'
-                const url = row.c[3]?.v || "";
-
-                const li = document.createElement("li");
-                li.innerHTML = `<strong>${titulo}</strong> — ${entidad} (${fecha}) ${url ? ` - <a href="${url}" target="_blank">Ver certificado</a>` : ""}`;
-                list.appendChild(li);
-            });
-        })
-        .catch(error => {
-            console.error("Error cargando hoja: ", error);
-            document.getElementById("cv-list").innerHTML = "<li>No se pudo cargar el CV.</li>";
-        });
-</script>
 </html>
