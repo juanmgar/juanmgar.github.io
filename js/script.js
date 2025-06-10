@@ -122,12 +122,11 @@ fetch(SHEET_URL)
         document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
     });
 
-window.addEventListener('load', () => {
-    const interval = setInterval(() => {
+    window.addEventListener('load', () => {
+      const interval = setInterval(() => {
         if (document.querySelectorAll('#list-degrees li').length > 0 || document.querySelector('#list-degrees').textContent.includes('Could not')) {
-            document.getElementById('loading-spinner').style.display = 'none';
-            document.querySelector('main').style.display = 'block';
-            clearInterval(interval);
+          document.getElementById('loading-spinner').style.display = 'none';
+          clearInterval(interval);
         }
-    }, 100);
-});
+      }, 100);
+    });

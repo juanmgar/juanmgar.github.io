@@ -54,23 +54,22 @@ a {
 }
 
 #loading-spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 2rem;
-}
-
-#loading-spinner i {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      z-index: 1000;
     }
-
-    to {
-        transform: rotate(360deg);
+    #loading-spinner i {
+      animation: spin 1s linear infinite;
     }
-}
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
