@@ -38,8 +38,7 @@ function renderCV(data, lang = "en") {
         year: headers.indexOf("Year"),
         area: headers.indexOf("Area"),
         type: headers.indexOf("Type"),
-        published: headers.indexOf("Published"),
-        url: headers.indexOf("URL")
+        published: headers.indexOf("Published")
     };
 
     const get = (row, idx) => row.c[idx]?.v || "";
@@ -60,7 +59,6 @@ function renderCV(data, lang = "en") {
         const year = get(row, colIndex.year);
         const area = (get(row, colIndex.area) || "").toLowerCase();
         const type = (get(row, colIndex.type) || "").toLowerCase();
-        const url = get(row, colIndex.url);
 
         const li = document.createElement("li");
 
@@ -68,7 +66,6 @@ function renderCV(data, lang = "en") {
       <span class="cv-title">${title}</span>. 
       <span class="cv-institution">${inst}</span> 
       (<span class="cv-year">${year}</span>)
-      ${url ? `<a href="${url}" target="_blank"> [${lang === "es" ? "Ver certificado" : "View certificate"}]</a>` : ""}
     `;
 
         if (type === "degree") {
@@ -78,11 +75,9 @@ function renderCV(data, lang = "en") {
         } else {
             switch (area) {
                 case "computer science":
-                case "informática":
                     listIT.appendChild(li);
                     break;
                 case "science":
-                case "ciencias":
                     listScience.appendChild(li);
                     break;
                 default:
@@ -122,11 +117,11 @@ fetch(SHEET_URL)
         document.getElementById("list-degrees").innerHTML = "<li>Could not load CV data.</li>";
     });
 
-    window.addEventListener('load', () => {
-      const interval = setInterval(() => {
+window.addEventListener('load', () => {
+    const interval = setInterval(() => {
         if (document.querySelectorAll('#list-degrees li').length > 0 || document.querySelector('#list-degrees').textContent.includes('Could not')) {
-          document.getElementById('loading-spinner').style.display = 'none';
-          clearInterval(interval);
+            document.getElementById('loading-spinner').style.display = 'none';
+            clearInterval(interval);
         }
-      }, 100);
-    });
+    }, 100);
+});
