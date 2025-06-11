@@ -4,6 +4,23 @@ const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tq
 
 let currentLang = "en";
 
+const homepageTexts = {
+    en: {
+        p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka juanmgar. I'm from Cadiz but I live in <s>Madrid Granada Málaga Córdoba Gijón Porto (Portugal)</s> Oviedo. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
+        p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.`,
+        p3: `If you want to know more about me or my current projects, I encourage you to contact me through my email (juanmgar at gmail dot com) or any of my social networks.`,
+        langBtn: "Español",
+        linkText: "Check my updated CV"
+    },
+    es: {
+        p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias juanmgar. Soy de Cádiz pero vivo en <s>Madrid Granada Málaga Córdoba Gijón Porto (Portugal)</s> Oviedo. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
+        p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología entre Granada y Málaga. Aunque trabajé en laboratorios de análisis e investigación, la mayor parte de mi carrera profesional ha sido como desarrollador Full-Stack en Madrid y Asturias.`,
+        p3: `Si quieres saber más sobre mí o mis proyectos actuales, te animo a contactarme por correo (juanmgar at gmail dot com) o por cualquiera de mis redes sociales.`,
+        langBtn: "English",
+        linkText: "Consulta mi CV actualizado"
+    }
+};
+
 const sectionTitles = {
     en: {
         degrees: "Official Degrees",
@@ -100,6 +117,29 @@ function renderCV(data, lang = "en") {
     document.getElementById("back-btn").textContent = sectionTitles[lang].back;
     document.getElementById("toggle-lang").textContent = sectionTitles[lang].langBtn;
 }
+
+function updateHomepageLang(lang) {
+    const t = homepageTexts[lang];
+
+    document.getElementById("p1").innerHTML = t.p1;
+    document.getElementById("p2").textContent = t.p2;
+    document.getElementById("p3").textContent = t.p3;
+
+    document.getElementById("toggle-lang").textContent = t.langBtn;
+    document.getElementById("cv-link").textContent = t.linkText;
+
+    document.documentElement.lang = lang;
+}
+
+if (document.getElementById("p1")) {
+    updateHomepageLang(currentLang);
+
+    document.getElementById("toggle-lang").addEventListener("click", () => {
+        currentLang = currentLang === "en" ? "es" : "en";
+        updateHomepageLang(currentLang);
+    });
+}
+
 
 fetch(SHEET_URL)
     .then(res => res.ok ? res.text() : Promise.reject("Failed to load spreadsheet"))
