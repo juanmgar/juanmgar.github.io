@@ -27,6 +27,11 @@ const homepageTexts = {
 
 const sectionTitles = {
     en: {
+        catDegrees: "Official Degrees",
+        catLanguages: "Languages",
+        catCS: "Computer Science",
+        catScience: "Science",
+        catOther: "Other",
         degrees: "Official Degrees",
         languages: "Languages",
         certificates: "Other Certificates",
@@ -37,6 +42,11 @@ const sectionTitles = {
         langBtn: "Español"
     },
     es: {
+        catDegrees: "Titulaciones Oficiales",
+        catLanguages: "Idiomas",
+        catCS: "Informática",
+        catScience: "Ciencias",
+        catOther: "Otros",
         degrees: "Titulaciones Oficiales",
         languages: "Idiomas",
         certificates: "Otros Certificados",
@@ -114,10 +124,15 @@ function renderCV(data, lang = "en") {
     sections[1].querySelector("h2").textContent = sectionTitles[lang].languages;
     sections[2].querySelector("h2").textContent = sectionTitles[lang].certificates;
 
-    h3s[0].innerHTML = "<u>"+sectionTitles[lang].cs+"</u>";
-    h3s[1].innerHTML = "<u>"+sectionTitles[lang].sci+"</u>";
-    h3s[2].innerHTML = "<u>"+sectionTitles[lang].misc+"</u>";
+    h3s[0].innerHTML = "<u>" + sectionTitles[lang].cs + "</u>";
+    h3s[1].innerHTML = "<u>" + sectionTitles[lang].sci + "</u>";
+    h3s[2].innerHTML = "<u>" + sectionTitles[lang].misc + "</u>";
 
+    document.getElementById("catDegrees").textContent = sectionTitles[lang].catDegrees;
+    document.getElementById("catLanguages").textContent = sectionTitles[lang].catLanguages;
+    document.getElementById("catCS").textContent = sectionTitles[lang].catCS;
+    document.getElementById("catScience").textContent = sectionTitles[lang].catScience;
+    document.getElementById("catOther").textContent = sectionTitles[lang].catOther;
     document.getElementById("back-btn").textContent = sectionTitles[lang].back;
     document.getElementById("toggle-lang").textContent = sectionTitles[lang].langBtn;
 }
