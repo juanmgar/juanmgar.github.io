@@ -1,7 +1,7 @@
 html {
 	font-family: 'Roboto', sans-serif;
 	box-sizing: border-box;
-	font-size: 12px;
+	font-size: 10px;
 }
 
 *, *:before, *:after {
@@ -35,25 +35,25 @@ img {
 
 @media (min-width: 576px) {
 	html {
-		font-size: 14px;
+		font-size: 12px;
 	}
 }
 
 @media (min-width: 768px) {
 	html {
-		font-size: 16px;
+		font-size: 14px;
 	}
 }
 
 @media (min-width: 992px) {
 	html {
-		font-size: 18px;
+		font-size: 16px;
 	}
 }
 
 @media (min-width: 1200px) {
 	html {
-		font-size: 20px;
+		font-size: 18px;
 	}
 }
 
@@ -183,8 +183,6 @@ a {
 	}
 }
 
-/* Theme */
-
 main {
 	background: #e8d23b;
 	color: #1E1E1E;
@@ -197,3 +195,44 @@ main {
 .icons-social a svg path {
 	fill: #1E1E1E;
 }
+
+.custom-lang-btn {
+  display: inline-block;
+  background-color: transparent;
+  color: #1E1E1E;
+  border: 2px solid #1E1E1E;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+
+.custom-lang-btn:link,
+.custom-lang-btn:visited {
+  text-decoration: none;
+}
+
+.custom-lang-btn:hover,
+.custom-lang-btn:focus {
+  background-color: #1E1E1E;
+  color: #fff;
+  text-decoration: none;
+  border-color: #1E1E1E;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 20px;
+}
+
+.profile-photo {
+  width: 250px;
+  height: auto;
+  max-width: 100%;
+}
+
