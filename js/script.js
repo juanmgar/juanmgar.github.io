@@ -114,9 +114,9 @@ function renderCV(data, lang = "en") {
     sections[1].querySelector("h2").textContent = sectionTitles[lang].languages;
     sections[2].querySelector("h2").textContent = sectionTitles[lang].certificates;
 
-    h3s[0].textContent = sectionTitles[lang].cs;
-    h3s[1].textContent = sectionTitles[lang].sci;
-    h3s[2].textContent = sectionTitles[lang].misc;
+    h3s[0].textContent = "<u>"+sectionTitles[lang].cs+"</u>";
+    h3s[1].textContent = "<u>"+sectionTitles[lang].sci+"</u>";
+    h3s[2].textContent = "<u>"+sectionTitles[lang].misc+"</u>";
 
     document.getElementById("back-btn").textContent = sectionTitles[lang].back;
     document.getElementById("toggle-lang").textContent = sectionTitles[lang].langBtn;
