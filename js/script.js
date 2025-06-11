@@ -97,7 +97,7 @@ function renderCV(data, lang = "en") {
     h3s[1].textContent = sectionTitles[lang].sci;
     h3s[2].textContent = sectionTitles[lang].misc;
 
-    document.querySelector("main p a").textContent = sectionTitles[lang].back;
+    document.getElementById("back-btn").textContent = sectionTitles[lang].back;
     document.getElementById("toggle-lang").textContent = sectionTitles[lang].langBtn;
 }
 
