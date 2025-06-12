@@ -132,7 +132,7 @@ h3 {
 }
 
 .container details {
-	margin-bottom: 1.5rem;
+	margin-bottom: 0.5rem;
 }
 
 .container summary {
@@ -151,7 +151,7 @@ h3 {
 
 .container ul.cv-list {
 	padding-left: 1.5rem;
-	margin-bottom: 1rem;
+	margin-bottom: 0.7rem;
 }
 
 /* ========================
@@ -159,7 +159,7 @@ h3 {
 ========================= */
 .cv-list li {
 	font-size: 1.1em;
-	margin-bottom: 1rem;
+	margin-bottom: 0.7rem;
 	line-height: 1.5;
 	text-align: left;
 }
