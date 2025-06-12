@@ -107,10 +107,8 @@ function renderCV(data, lang = "en") {
         const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
         const inst = get(row, colIndex.institution);
         const year = get(row, colIndex.year);
-        const level = (get(row, colIndex.level) || "").toLowerCase();
 
         const li = document.createElement("li");
-        li.classList.add(`degree-${level}`);
         li.innerHTML = `
           <span class="cv-title">${title}</span>. 
           <span class="cv-institution">${inst}</span> 

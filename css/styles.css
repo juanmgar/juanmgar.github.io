@@ -261,33 +261,51 @@ main {
 }
 
 .cv-index {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin: 1.5rem auto 2rem;
-  padding: 0 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+	margin: 1.5rem auto 2rem;
+	padding: 0 1rem;
 }
 
 .index-link {
-  background-color: #333;
-  color: #f9f9f9;
-  border: 1px solid #555;
-  border-radius: 20px;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+	background-color: #333;
+	color: #f9f9f9;
+	border: 1px solid #555;
+	border-radius: 20px;
+	padding: 0.5rem 1rem;
+	text-decoration: none;
+	font-size: 0.95rem;
+	transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .index-link:hover {
-  background-color: #717171;
-  color: #fff;
-  text-decoration: none;
+	background-color: #717171;
+	color: #fff;
+	text-decoration: none;
 }
 
-.degree-master { font-weight: bold; color: #1d3557; }
-.degree-specialist { color: #457b9d; }
-.degree-bachelor { color: #6c757d; }
-.degree-cfgs { color: #888; font-style: italic; }
-.degree-school { color: #aaa; font-style: italic; }
+details summary {
+	cursor: pointer;
+	padding: 0.3em 0;
+}
+
+details summary h2,
+details summary h3 {
+	display: inline;
+	font-size: 1.2em;
+	margin: 0;
+}
+
+details[open]>summary::after {
+	content: " ▲";
+	font-size: 0.8em;
+	color: #999;
+}
+
+details:not([open])>summary::after {
+	content: " ▼";
+	font-size: 0.8em;
+	color: #999;
+}
