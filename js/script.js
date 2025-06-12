@@ -69,8 +69,8 @@ function renderCV(data, lang = "en") {
         year: headers.indexOf("Year"),
         area: headers.indexOf("Area"),
         type: headers.indexOf("Type"),
-        level: headers.indexOf("Level"),
-        published: headers.indexOf("Published")
+        published: headers.indexOf("Published"),
+        level: headers.indexOf("Level")
     };
 
     const get = (row, idx) => row.c[idx]?.v || "";
@@ -83,7 +83,26 @@ function renderCV(data, lang = "en") {
 
     [listDegrees, listLanguages, listIT, listScience, listMisc].forEach(ul => ul.innerHTML = "");
 
-    // Primero renderizamos los degrees ordenados
+    // Ordenar grados oficiales por nivel
+    const degreeLevelOrder = {
+        master: 1,
+        specialist: 2,
+        bachelor: 3,
+        cfgs: 4,
+        school: 5
+    };
+
+    const degreeRows = rows.filter(row =>
+        (get(row, colIndex.published) || "").toLowerCase() === "yes" &&
+        (get(row, colIndex.type) || "").toLowerCase() === "degree"
+    );
+
+    degreeRows.sort((a, b) => {
+        const levelA = (get(a, colIndex.level) || "zzz").toLowerCase();
+        const levelB = (get(b, colIndex.level) || "zzz").toLowerCase();
+        return (degreeLevelOrder[levelA] || 99) - (degreeLevelOrder[levelB] || 99);
+    });
+
     degreeRows.forEach(row => {
         const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
         const inst = get(row, colIndex.institution);
@@ -91,16 +110,17 @@ function renderCV(data, lang = "en") {
 
         const li = document.createElement("li");
         li.innerHTML = `
-      <span class="cv-title">${title}</span>. 
-      <span class="cv-institution">${inst}</span> 
-      (<span class="cv-year">${year}</span>)
-    `;
+          <span class="cv-title">${title}</span>. 
+          <span class="cv-institution">${inst}</span> 
+          (<span class="cv-year">${year}</span>)
+        `;
         listDegrees.appendChild(li);
     });
 
-
+    // Resto de elementos (idiomas y certificados)
     rows.forEach(row => {
         if ((get(row, colIndex.published) || "").toLowerCase() !== "yes") return;
+        if ((get(row, colIndex.type) || "").toLowerCase() === "degree") return; // ya renderizado
 
         const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
         const inst = get(row, colIndex.institution);
@@ -109,12 +129,11 @@ function renderCV(data, lang = "en") {
         const type = (get(row, colIndex.type) || "").toLowerCase();
 
         const li = document.createElement("li");
-
         li.innerHTML = `
-      <span class="cv-title">${title}</span>. 
-      <span class="cv-institution">${inst}</span> 
-      (<span class="cv-year">${year}</span>)
-    `;
+          <span class="cv-title">${title}</span>. 
+          <span class="cv-institution">${inst}</span> 
+          (<span class="cv-year">${year}</span>)
+        `;
 
         if (type === "language skill") {
             listLanguages.appendChild(li);
@@ -176,28 +195,6 @@ if (document.getElementById("p1")) {
         updateHomepageLang(currentLang);
     });
 }
-
-const degreeLevelOrder = {
-    master: 1,
-    specialist: 2,
-    bachelor: 3,
-    cfgs: 4,
-    school: 5
-};
-
-// Filtrar solo los grados publicados
-const degreeRows = rows.filter(row =>
-    (get(row, colIndex.published) || "").toLowerCase() === "yes" &&
-    (get(row, colIndex.type) || "").toLowerCase() === "degree"
-);
-
-// Ordenar por el nivel definido
-degreeRows.sort((a, b) => {
-    const levelA = (get(a, colIndex.level) || "zzz").toLowerCase();
-    const levelB = (get(b, colIndex.level) || "zzz").toLowerCase();
-    return (degreeLevelOrder[levelA] || 99) - (degreeLevelOrder[levelB] || 99);
-});
-
 
 
 fetch(SHEET_URL)
