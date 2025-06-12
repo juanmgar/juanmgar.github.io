@@ -103,16 +103,6 @@ main .tagline {
 	height: 2.65rem;
 }
 
-.container {
-	max-width: 800px;
-	margin: 0 auto;
-	padding: 2rem 1rem;
-	text-align: justify;
-	background-color: rgba(255, 255, 255, 0.9);
-	border-radius: 8px;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
 .cv-list {
 	list-style-type: none;
 	padding-left: 0;
@@ -308,4 +298,23 @@ details:not([open])>summary::after {
 	content: " ▼";
 	font-size: 0.8em;
 	color: #999;
+}
+
+details>summary {
+	padding: 0.3em 0;
+}
+
+details>ul,
+details>div,
+details details {
+	margin-left: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 1rem;
+}
+
+details details {
+	margin-top: 0.5rem;
+	margin-bottom: 1rem;
+	padding-left: 1.2rem;
+	border-left: 2px solid #eee;
 }

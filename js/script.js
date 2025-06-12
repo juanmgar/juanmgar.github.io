@@ -151,16 +151,21 @@ function renderCV(data, lang = "en") {
         }
     });
 
-    const sections = document.querySelectorAll("section");
-    const h3s = document.querySelectorAll("section h3");
+    const degreesSummary = document.querySelector('#official-degrees summary h2');
+    const languagesSummary = document.querySelector('#languages summary h2');
+    const certificatesSummary = document.querySelector('#certificates summary h2');
 
-    sections[0].querySelector("h2").textContent = sectionTitles[lang].degrees;
-    sections[1].querySelector("h2").textContent = sectionTitles[lang].languages;
-    sections[2].querySelector("h2").textContent = sectionTitles[lang].certificates;
+    const h3CS = document.querySelector('#cs summary h3');
+    const h3SCI = document.querySelector('#science summary h3');
+    const h3MISC = document.querySelector('#misc summary h3');
 
-    h3s[0].innerHTML = "<u>" + sectionTitles[lang].cs + "</u>";
-    h3s[1].innerHTML = "<u>" + sectionTitles[lang].sci + "</u>";
-    h3s[2].innerHTML = "<u>" + sectionTitles[lang].misc + "</u>";
+    degreesSummary.textContent = sectionTitles[lang].degrees;
+    languagesSummary.textContent = sectionTitles[lang].languages;
+    certificatesSummary.textContent = sectionTitles[lang].certificates;
+
+    h3CS.innerHTML = "<u>" + sectionTitles[lang].cs + "</u>";
+    h3SCI.innerHTML = "<u>" + sectionTitles[lang].sci + "</u>";
+    h3MISC.innerHTML = "<u>" + sectionTitles[lang].misc + "</u>";
 
     document.getElementById("catDegrees").textContent = sectionTitles[lang].catDegrees;
     document.getElementById("catLanguages").textContent = sectionTitles[lang].catLanguages;
