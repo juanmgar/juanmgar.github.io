@@ -69,6 +69,7 @@ function renderCV(data, lang = "en") {
         year: headers.indexOf("Year"),
         area: headers.indexOf("Area"),
         type: headers.indexOf("Type"),
+        level: headers.indexOf("Level"),
         published: headers.indexOf("Published")
     };
 
@@ -81,6 +82,22 @@ function renderCV(data, lang = "en") {
     const listMisc = document.getElementById("list-misc");
 
     [listDegrees, listLanguages, listIT, listScience, listMisc].forEach(ul => ul.innerHTML = "");
+
+    // Primero renderizamos los degrees ordenados
+    degreeRows.forEach(row => {
+        const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
+        const inst = get(row, colIndex.institution);
+        const year = get(row, colIndex.year);
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+      <span class="cv-title">${title}</span>. 
+      <span class="cv-institution">${inst}</span> 
+      (<span class="cv-year">${year}</span>)
+    `;
+        listDegrees.appendChild(li);
+    });
+
 
     rows.forEach(row => {
         if ((get(row, colIndex.published) || "").toLowerCase() !== "yes") return;
@@ -99,9 +116,7 @@ function renderCV(data, lang = "en") {
       (<span class="cv-year">${year}</span>)
     `;
 
-        if (type === "degree") {
-            listDegrees.appendChild(li);
-        } else if (type === "language skill") {
+        if (type === "language skill") {
             listLanguages.appendChild(li);
         } else {
             switch (area) {
@@ -161,6 +176,28 @@ if (document.getElementById("p1")) {
         updateHomepageLang(currentLang);
     });
 }
+
+const degreeLevelOrder = {
+    master: 1,
+    specialist: 2,
+    bachelor: 3,
+    cfgs: 4,
+    school: 5
+};
+
+// Filtrar solo los grados publicados
+const degreeRows = rows.filter(row =>
+    (get(row, colIndex.published) || "").toLowerCase() === "yes" &&
+    (get(row, colIndex.type) || "").toLowerCase() === "degree"
+);
+
+// Ordenar por el nivel definido
+degreeRows.sort((a, b) => {
+    const levelA = (get(a, colIndex.level) || "zzz").toLowerCase();
+    const levelB = (get(b, colIndex.level) || "zzz").toLowerCase();
+    return (degreeLevelOrder[levelA] || 99) - (degreeLevelOrder[levelB] || 99);
+});
+
 
 
 fetch(SHEET_URL)
