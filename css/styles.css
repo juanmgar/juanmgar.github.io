@@ -285,3 +285,9 @@ main {
   color: #fff;
   text-decoration: none;
 }
+
+.degree-master { font-weight: bold; color: #1d3557; }
+.degree-specialist { color: #457b9d; }
+.degree-bachelor { color: #6c757d; }
+.degree-cfgs { color: #888; font-style: italic; }
+.degree-school { color: #aaa; font-style: italic; }
