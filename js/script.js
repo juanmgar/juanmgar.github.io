@@ -83,14 +83,14 @@ function updateHomepageLang(lang) {
    Paginación: estado y función de render
    ======================= */
 const pageSize = 10;
-const pages = { languages: 0, cs: 0, science: 0, misc: 0 };
-let itemsStore = { languages: [], cs: [], science: [], misc: [] };
+const pages = { cs: 0, science: 0, misc: 0 };
+let itemsStore = { cs: [], science: [], misc: [] };
 
 /**
  * Renderiza un slice de items (LIs DOM nodes) en la lista correspondiente.
  * listEl: elemento UL
  * items: array de <li> (nodes)
- * key: 'languages'|'cs'|'science'|'misc'
+ * key: 'cs'|'science'|'misc'
  */
 function renderCategory(listEl, items, key) {
   if (!listEl) return;
@@ -182,7 +182,7 @@ function renderCV(data, lang = "en") {
   });
 
   // ---- Resto: generamos <li> pero los guardamos en itemsStore para paginar ----
-  itemsStore = { languages: [], cs: [], science: [], misc: [] };
+  itemsStore = { cs: [], science: [], misc: [] };
 
   rows.forEach(row => {
     if ((get(row, colIndex.published) || "").toLowerCase() !== "yes") return;
@@ -234,8 +234,7 @@ function renderCV(data, lang = "en") {
   setIf("toggle-lang", sectionTitles[lang].langBtn);
 
   // reset páginas y render inicial de cada categoría paginada
-  pages.languages = 0; pages.cs = 0; pages.science = 0; pages.misc = 0;
-  renderCategory(listLanguages, itemsStore.languages, 'languages');
+  pages.cs = 0; pages.science = 0; pages.misc = 0;
   renderCategory(listIT, itemsStore.cs, 'cs');
   renderCategory(listScience, itemsStore.science, 'science');
   renderCategory(listMisc, itemsStore.misc, 'misc');
@@ -249,8 +248,8 @@ document.addEventListener('click', (e) => {
   if (e.target.classList.contains('prev') || e.target.classList.contains('next')) {
     const section = e.target.closest('section');
     if (!section) return;
-    const sectionId = section.id; // 'languages'|'cs'|'science'|'misc'
-    const keyMap = { languages: 'languages', cs: 'cs', science: 'science', misc: 'misc' };
+    const sectionId = section.id; //'cs'|'science'|'misc'
+    const keyMap = { cs: 'cs', science: 'science', misc: 'misc' };
     const key = keyMap[sectionId];
     if (!key) return;
 
