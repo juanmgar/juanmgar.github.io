@@ -10,73 +10,73 @@ let currentLang = "en";
    Textos multilengua
    ======================= */
 const homepageTexts = {
-    en: {
-        hello: "Hello, I'm JuanMa Sierra García!",
-        jobTitle: "Dev + Biologist ↔ Bioinformatician wannabe",
-        p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka juanmgar. I'm from Cadiz but I live in <s>Madrid Granada Málaga Córdoba Gijón Porto (Portugal)</s> Oviedo. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
-        p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.`,
-        p3: `If you want to know more about me or my current projects, I encourage you to contact me through my email (juanmgar at gmail dot com) or any of my social networks.`,
-        langBtn: "Español",
-        linkText: "Check my updated CV"
-    },
-    es: {
-        hello: "¡Hola, soy JuanMa Sierra García!",
-        jobTitle: "Dev + Biólogo ↔ Bioinformático wannabe",
-        p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias juanmgar. Soy de Cádiz pero vivo en <s>Madrid Granada Málaga Córdoba Gijón Porto (Portugal)</s> Oviedo. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
-        p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología entre Granada y Málaga. Aunque trabajé en laboratorios de análisis e investigación, la mayor parte de mi carrera profesional ha sido como desarrollador Full-Stack en Madrid y Asturias.`,
-        p3: `Si quieres saber más sobre mí o mis proyectos actuales, te animo a contactarme por correo (juanmgar at gmail dot com) o por cualquiera de mis redes sociales.`,
-        langBtn: "English",
-        linkText: "Consulta mi CV actualizado"
-    }
+  en: {
+    hello: "Hello, I'm JuanMa Sierra García!",
+    jobTitle: "Dev + Biologist ↔ Bioinformatician wannabe",
+    p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka juanmgar. I'm from Cadiz but I live in <s>Madrid Granada Málaga Córdoba Gijón Porto (Portugal)</s> Oviedo. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
+    p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.`,
+    p3: `If you want to know more about me or my current projects, I encourage you to contact me through my email (juanmgar at gmail dot com) or any of my social networks.`,
+    langBtn: "Español",
+    linkText: "Check my updated CV"
+  },
+  es: {
+    hello: "¡Hola, soy JuanMa Sierra García!",
+    jobTitle: "Dev + Biólogo ↔ Bioinformático wannabe",
+    p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias juanmgar. Soy de Cádiz pero vivo en <s>Madrid Granada Málaga Córdoba Gijón Porto (Portugal)</s> Oviedo. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
+    p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología entre Granada y Málaga. Aunque trabajé en laboratorios de análisis e investigación, la mayor parte de mi carrera profesional ha sido como desarrollador Full-Stack en Madrid y Asturias.`,
+    p3: `Si quieres saber más sobre mí o mis proyectos actuales, te animo a contactarme por correo (juanmgar at gmail dot com) o por cualquiera de mis redes sociales.`,
+    langBtn: "English",
+    linkText: "Consulta mi CV actualizado"
+  }
 };
 
 const sectionTitles = {
-    en: {
-        catDegrees: "Official Degrees",
-        catLanguages: "Languages",
-        catCS: "Computer Science",
-        catScience: "Science",
-        catOther: "Other",
-        degrees: "Official Degrees",
-        languages: "Languages",
-        certificates: "Other Certificates",
-        cs: "Computer Science",
-        sci: "Science",
-        misc: "Other",
-        back: "← Back to main page",
-        langBtn: "Español"
-    },
-    es: {
-        catDegrees: "Titulaciones Oficiales",
-        catLanguages: "Idiomas",
-        catCS: "Informática",
-        catScience: "Ciencias",
-        catOther: "Otros",
-        degrees: "Titulaciones Oficiales",
-        languages: "Idiomas",
-        certificates: "Otros Certificados",
-        cs: "Informática",
-        sci: "Ciencias",
-        misc: "Otros",
-        back: "← Volver a la página principal",
-        langBtn: "English"
-    }
+  en: {
+    catDegrees: "Official Degrees",
+    catLanguages: "Languages",
+    catCS: "Computer Science",
+    catScience: "Science",
+    catOther: "Other",
+    degrees: "Official Degrees",
+    languages: "Languages",
+    certificates: "Other Certificates",
+    cs: "Computer Science",
+    sci: "Science",
+    misc: "Other",
+    back: "← Back to main page",
+    langBtn: "Español"
+  },
+  es: {
+    catDegrees: "Titulaciones Oficiales",
+    catLanguages: "Idiomas",
+    catCS: "Informática",
+    catScience: "Ciencias",
+    catOther: "Otros",
+    degrees: "Titulaciones Oficiales",
+    languages: "Idiomas",
+    certificates: "Otros Certificados",
+    cs: "Informática",
+    sci: "Ciencias",
+    misc: "Otros",
+    back: "← Volver a la página principal",
+    langBtn: "English"
+  }
 };
 
 /* =======================
    Helpers para la home (si existe)
    ======================= */
 function updateHomepageLang(lang) {
-    const t = homepageTexts[lang];
-    // algunos elementos solo existen en la home; protegemos con checks
-    if (document.getElementById("hello")) document.getElementById("hello").innerHTML = t.hello;
-    if (document.getElementById("jobTitle")) document.getElementById("jobTitle").innerHTML = t.jobTitle;
-    if (document.getElementById("p1")) document.getElementById("p1").innerHTML = t.p1;
-    if (document.getElementById("p2")) document.getElementById("p2").textContent = t.p2;
-    if (document.getElementById("p3")) document.getElementById("p3").textContent = t.p3;
-    if (document.getElementById("toggle-lang")) document.getElementById("toggle-lang").textContent = t.langBtn;
-    if (document.getElementById("cv-link")) document.getElementById("cv-link").textContent = t.linkText;
-    document.documentElement.lang = lang;
+  const t = homepageTexts[lang];
+  // algunos elementos solo existen en la home; protegemos con checks
+  if (document.getElementById("hello")) document.getElementById("hello").innerHTML = t.hello;
+  if (document.getElementById("jobTitle")) document.getElementById("jobTitle").innerHTML = t.jobTitle;
+  if (document.getElementById("p1")) document.getElementById("p1").innerHTML = t.p1;
+  if (document.getElementById("p2")) document.getElementById("p2").textContent = t.p2;
+  if (document.getElementById("p3")) document.getElementById("p3").textContent = t.p3;
+  if (document.getElementById("toggle-lang")) document.getElementById("toggle-lang").textContent = t.langBtn;
+  if (document.getElementById("cv-link")) document.getElementById("cv-link").textContent = t.linkText;
+  document.documentElement.lang = lang;
 }
 
 /* =======================
@@ -238,6 +238,11 @@ function renderCV(data, lang = "en") {
   renderCategory(listIT, itemsStore.cs, 'cs');
   renderCategory(listScience, itemsStore.science, 'science');
   renderCategory(listMisc, itemsStore.misc, 'misc');
+
+  itemsStore.languages.forEach(li => {
+    if (listLanguages) listLanguages.appendChild(li);
+  });
+
 }
 
 /* =======================
@@ -306,7 +311,7 @@ fetch(SHEET_URL)
 window.addEventListener('load', () => {
   const interval = setInterval(() => {
     if (document.querySelectorAll('#list-degrees li').length > 0 ||
-        (document.getElementById('list-degrees') && document.getElementById('list-degrees').textContent.includes('Could not'))) {
+      (document.getElementById('list-degrees') && document.getElementById('list-degrees').textContent.includes('Could not'))) {
       const spinner = document.getElementById('loading-spinner');
       if (spinner) spinner.style.display = 'none';
       clearInterval(interval);
