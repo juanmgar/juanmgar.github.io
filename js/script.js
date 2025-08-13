@@ -182,7 +182,7 @@ function renderCV(data, lang = "en") {
   });
 
   // ---- Resto: generamos <li> pero los guardamos en itemsStore para paginar ----
-  itemsStore = { cs: [], science: [], misc: [] };
+  itemsStore = { languages: [], cs: [], science: [], misc: [] };
 
   rows.forEach(row => {
     if ((get(row, colIndex.published) || "").toLowerCase() !== "yes") return;
