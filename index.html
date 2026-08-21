@@ -6,74 +6,134 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Juan Manuel Sierra García">
-    <title>Juanma Sierra García - Andalucía / Asturias / Porto</title>
-    <link rel="icon" href="favicon.ico" type="image/png" />
-    <link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <title>Juanma Sierra García - Dev + Biólogo</title>
+    
+    <!-- Fuentes modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Propio (Eliminamos Bootstrap para hacerlo más ligero) -->
     <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Iconos -->
     <script src="https://kit.fontawesome.com/8bcd15b62e.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <main>
-        <div class="top-bar">
-            <a id="cv-link" href="cv.html" class="custom-lang-btn">Check my updated CV</a>
-            <button id="toggle-lang" class="btn custom-lang-btn">Español</button>
-        </div>
-        <div itemscope itemtype="http://schema.org/Person">
-            <div id="hello" class="intro">Hello, I'm <span itemprop="givenName">JuanMa</span> <span itemprop="familyName">Sierra
-                    García</span>!
-            </div>
-            <div class="intro">
-                <img itemprop="image" src="img/juanmgar2024.jpg" class="img-circle profile-photo"
-                    alt="Fotografía de JuanMa Sierra García aka juanmgar">
-            </div>
-            <div class="icons-social">
-                <a itemprop="sameAs" target="_blank" href="https://github.com/juanmgar"><i
-                        class="fab fa-github"></i></a>
-                <a itemprop="sameAs" target="_blank" href="https://lasinceridadestamalvista.com"><i
-                        class="fab fa-wordpress"></i></a>
-                <a itemprop="sameAs" target="_blank" href="https://www.linkedin.com/in/juanmgar"><i
-                        class="fab fa-linkedin"></i></a>
-                <a itemprop="sameAs" target="_blank" href="https://twitter.com/juanmgar"><i
-                        class="fab fa-twitter"></i></a>
-                <a itemprop="sameAs" target="_blank" href="https://bsky.app/profile/juanmgar.bsky.social"><i
-                        class="fa-brands fa-bluesky"></i></a>
-                <a itemprop="sameAs" target="_blank" href="https://www.freecodecamp.org/juanmgar"><i
-                        class="fab fa-free-code-camp"></i></a>
-            </div>
-
-
-            <div id="jobTitle" class="tagline" itemprop="jobTitle">Dev + Biologist ↔ Bioinformatician wannabe</div>
-            <div class="intro-text">
-                <p id="p1" class="parrafo">Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span
-                        itemprop="alternateName">juanmgar</span>.
-                    I'm from <span itemprop="birthPlace">Cadiz</span> but I live ̶in̶ ̶M̶a̶d̶r̶i̶d̶ ̶G̶r̶a̶n̶a̶d̶a̶
-                    ̶M̶ál̶a̶g̶a̶ ̶C̶ó̶r̶d̶o̶b̶a̶ ̶G̶i̶j̶ó̶n̶ O̶v̶i̶e̶d̶o̶ in <span itemprop="address" itemscope
-                        itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Porto</span>, <span
-                            itemprop="addressRegion">Portugal</span></span>.
-                    I love
-                    the music of Los Planetas and I accumulate shelves of books read and to be read.</p>
-
-                <p id="p2" class="parrafo">If you have come this far you may be interested to know that I studied Biology and
-                    Biotechnology between Granada and Malaga. Although I had some work experience in research and
-                    analysis
-                    laboratories, I have developed most of my professional career between Madrid and Asturias as a
-                    Full-Stack developer.</p>
-
-                <p id="p3" class="parrafo">If you want to know more about me or my current projects, I encourage you to contact
-                    me
-                    through my email (<span itemprop="email"><a href="mailto:juanmgar%20at%20gmail%20dot%20com">juanmgar
-                            at gmail dot com</a></span>)
-                    or any of my social networks.</p>
-
+    <!-- Barra superior fija -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <span class="logo">juanmgar</span>
+            <div class="nav-actions">
+                <a href="#cv-section" class="nav-link">Mi Experiencia</a>
+                <button id="toggle-lang" class="lang-btn">Español</button>
             </div>
         </div>
+    </header>
+
+    <main itemscope itemtype="http://schema.org/Person">
+        <!-- Hero Section (Presentación) -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 id="hello">Hello, I'm <span itemprop="givenName">JuanMa</span> <span itemprop="familyName">Sierra García</span>!</h1>
+                    <h2 id="jobTitle" class="job-title" itemprop="jobTitle">Dev + Biologist ↔ Bioinformatician wannabe</h2>
+                    
+                    <div class="bio-cards">
+                        <div class="bio-card">
+                            <p id="p1">Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span itemprop="alternateName">juanmgar</span>. I'm from <span itemprop="birthPlace">Cadiz</span> but I live in <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Porto</span>, <span itemprop="addressRegion">Portugal</span></span>. I love the music of Los Planetas and I accumulate shelves of books read and to be read.</p>
+                        </div>
+                        <div class="bio-card">
+                            <p id="p2">If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.</p>
+                        </div>
+                        <div class="bio-card highlight">
+                            <p id="p3">If you want to know more about me or my current projects, I encourage you to contact me through my email (<span itemprop="email"><a href="mailto:juanmgar%20at%20gmail%20dot%20com">juanmgar at gmail dot com</a></span>) or any of my social networks.</p>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a itemprop="sameAs" target="_blank" href="https://github.com/juanmgar" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a itemprop="sameAs" target="_blank" href="https://lasinceridadestamalvista.com" title="Blog"><i class="fab fa-wordpress"></i></a>
+                        <a itemprop="sameAs" target="_blank" href="https://www.linkedin.com/in/juanmgar" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a itemprop="sameAs" target="_blank" href="https://twitter.com/juanmgar" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a itemprop="sameAs" target="_blank" href="https://bsky.app/profile/juanmgar.bsky.social" title="Bluesky"><i class="fa-brands fa-bluesky"></i></a>
+                    </div>
+                </div>
+                
+                <div class="hero-image-container">
+                    <img itemprop="image" src="img/juanmgar2024.jpg" class="profile-photo" alt="Fotografía de JuanMa Sierra García aka juanmgar">
+                    <div class="shape-blob"></div> <!-- Elemento decorativo CSS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CV Section (Cargado por JS) -->
+        <section class="cv-section" id="cv-section">
+            <h2 class="section-title">Mi Trayectoria</h2>
+            
+            <nav class="cv-index">
+                <a id="catDegrees" href="#official-degrees" class="index-link">Degrees</a>
+                <a id="catLanguages" href="#languages" class="index-link">Languages</a>
+                <a id="catCS" href="#cs" class="index-link">Computer Science</a>
+                <a id="catScience" href="#science" class="index-link">Science</a>
+                <a id="catOther" href="#misc" class="index-link">Other</a>
+            </nav>
+
+            <div class="cv-grid">
+                <!-- Degrees -->
+                <article id="official-degrees" class="cv-card">
+                    <h3 class="tagline">Official Degrees</h3>
+                    <ul id="list-degrees" class="cv-list"></ul>
+                </article>
+
+                <!-- Languages -->
+                <article id="languages" class="cv-card">
+                    <h3 class="tagline">Languages</h3>
+                    <ul id="list-languages" class="cv-list"></ul>
+                </article>
+
+                <!-- Computer Science -->
+                <article id="cs" class="cv-card">
+                    <h3 class="tagline">Computer Science</h3>
+                    <ul id="list-it" class="cv-list"></ul>
+                    <div class="pager">
+                        <button class="prev btn">Anterior</button>
+                        <span class="page-info"></span>
+                        <button class="next btn">Siguiente</button>
+                    </div>
+                </article>
+
+                <!-- Science -->
+                <article id="science" class="cv-card">
+                    <h3 class="tagline">Science</h3>
+                    <ul id="list-science" class="cv-list"></ul>
+                    <div class="pager">
+                        <button class="prev btn">Anterior</button>
+                        <span class="page-info"></span>
+                        <button class="next btn">Siguiente</button>
+                    </div>
+                </article>
+
+                <!-- Other -->
+                <article id="misc" class="cv-card">
+                    <h3 class="tagline">Other</h3>
+                    <ul id="list-misc" class="cv-list"></ul>
+                    <div class="pager">
+                        <button class="prev btn">Anterior</button>
+                        <span class="page-info"></span>
+                        <button class="next btn">Siguiente</button>
+                    </div>
+                </article>
+            </div>
+        </section>
     </main>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <div id="loading-spinner">
+        <i class="fas fa-spinner"></i>
+        <p>Cargando datos...</p>
+    </div>
+
     <script src="js/script.js"></script>
 </body>
-
 </html>
