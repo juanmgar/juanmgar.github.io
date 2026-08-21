@@ -11,9 +11,9 @@
     <!-- Fuentes modernas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- CSS Propio (Eliminamos Bootstrap para hacerlo más ligero) -->
+    <!-- CSS Propio -->
     <link rel="stylesheet" href="css/styles.css">
     
     <!-- Iconos -->
@@ -47,7 +47,7 @@
                         <div class="bio-card">
                             <p id="p2">If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.</p>
                         </div>
-                        <div class="bio-card highlight">
+                        <div class="bio-card">
                             <p id="p3">If you want to know more about me or my current projects, I encourage you to contact me through my email (<span itemprop="email"><a href="mailto:juanmgar%20at%20gmail%20dot%20com">juanmgar at gmail dot com</a></span>) or any of my social networks.</p>
                         </div>
                     </div>
@@ -63,7 +63,6 @@
                 
                 <div class="hero-image-container">
                     <img itemprop="image" src="img/juanmgar2024.jpg" class="profile-photo" alt="Fotografía de JuanMa Sierra García aka juanmgar">
-                    <div class="shape-blob"></div> <!-- Elemento decorativo CSS -->
                 </div>
             </div>
         </section>
@@ -73,7 +72,8 @@
             <h2 class="section-title">Mi Trayectoria</h2>
             
             <nav class="cv-index">
-                <a id="catDegrees" href="#official-degrees" class="index-link">Degrees</a>
+                <!-- Por defecto marcamos Degrees como activo -->
+                <a id="catDegrees" href="#official-degrees" class="index-link active">Degrees</a>
                 <a id="catLanguages" href="#languages" class="index-link">Languages</a>
                 <a id="catCS" href="#cs" class="index-link">Computer Science</a>
                 <a id="catScience" href="#science" class="index-link">Science</a>
@@ -81,8 +81,8 @@
             </nav>
 
             <div class="cv-grid">
-                <!-- Degrees -->
-                <article id="official-degrees" class="cv-card">
+                <!-- Degrees (Activo por defecto) -->
+                <article id="official-degrees" class="cv-card active">
                     <h3 class="tagline">Official Degrees</h3>
                     <ul id="list-degrees" class="cv-list"></ul>
                 </article>
@@ -134,6 +134,7 @@
         <p>Cargando datos...</p>
     </div>
 
+    <!-- Script principal -->
     <script src="js/script.js"></script>
 </body>
 </html>
