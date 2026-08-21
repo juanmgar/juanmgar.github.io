@@ -11,7 +11,7 @@
 }
 
 html {
-    font-family: 'Inter', 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     box-sizing: border-box;
     scroll-behavior: smooth;
     font-size: 16px;
@@ -27,7 +27,7 @@ body {
     line-height: 1.6;
 }
 
-h1, h2, h3, h4 { margin: 0; font-weight: 700; color: var(--text-main); }
+h1, h2, h3, h4 { margin: 0; font-weight: 800; color: var(--text-main); }
 p { margin: 0 0 1rem 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease; }
@@ -107,7 +107,7 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 .hero-text h1 { font-size: 3.8rem; line-height: 1.1; margin-bottom: 0.5rem; letter-spacing: -1.5px; }
 .job-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; background: var(--card-bg); display: inline-block; padding: 0.2rem 0.5rem; border: 2px solid var(--border-color); border-radius: 6px; }
 
-.bio-cards { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
+.bio-cards { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
 
 /* Estilo unificado para todas las tarjetas (Bio y CV) */
 .bio-card, .cv-card {
@@ -120,7 +120,7 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.bio-card:hover, .cv-card:hover {
+.bio-card:hover {
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0px rgba(17, 24, 39, 1);
 }
@@ -128,7 +128,14 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 .bio-card p { font-size: 1.05rem; }
 .bio-card p:last-child { margin-bottom: 0; }
 
-.social-links { display: flex; gap: 1.5rem; font-size: 2rem; }
+/* Redes Sociales */
+.social-links { 
+    display: flex; 
+    gap: 1.5rem; 
+    font-size: 2rem; 
+    margin-top: 1rem; 
+    justify-content: flex-start;
+}
 .social-links a { color: var(--text-main); }
 .social-links a:hover { transform: translateY(-5px); }
 
@@ -147,7 +154,7 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 .profile-photo:hover { border-radius: 50%; }
 
 /* ========================
-   CV SECTION
+   CV SECTION (TABS)
 ========================= */
 .cv-section {
     max-width: 1200px;
@@ -175,11 +182,28 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
     transform: translate(-2px, -2px);
     box-shadow: 5px 5px 0px rgba(17, 24, 39, 1);
 }
+.index-link.active {
+    background: var(--text-main); 
+    color: var(--bg-color); 
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px rgba(17, 24, 39, 1);
+}
 
 .cv-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
+    display: block; 
+    max-width: 800px; 
+    margin: 0 auto;
+}
+
+/* Ocultar todas las tarjetas de currículum por defecto */
+.cv-card {
+    display: none;
+    animation: aparecer 0.4s ease forwards;
+}
+
+/* Mostrar SOLO la tarjeta activa */
+.cv-card.active {
+    display: block;
 }
 
 .cv-card .tagline {
@@ -229,6 +253,7 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
     font-weight: 700;
     box-shadow: 2px 2px 0px rgba(17,24,39,1);
     transition: all 0.1s;
+    color: var(--text-main);
 }
 .btn:active {
     box-shadow: 0px 0px 0px rgba(17,24,39,1);
@@ -238,8 +263,13 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 .page-info { font-weight: 700; font-size: 0.95rem; }
 
 /* ========================
-   SPINNER ANIMADO
+   ANIMACIONES & SPINNER
 ========================= */
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 #loading-spinner {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: var(--bg-color);
