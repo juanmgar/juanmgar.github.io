@@ -270,3 +270,58 @@ fetch(SHEET_URL)
     document.getElementById("list-degrees").innerHTML = "<li>Error al cargar CV.</li>";
     document.getElementById('loading-spinner').style.display = 'none';
   });
+
+/* =======================
+   Integración del Blog (WP REST API)
+   ======================= */
+async function loadLatestBlogPosts() {
+    const container = document.getElementById('blog-posts-container');
+    if (!container) return;
+
+    // La API de WordPress devuelve los últimos posts. _embed incluye imágenes destacadas.
+    const wpApiUrl = 'https://lasinceridadestamalvista.com/wp-json/wp/v2/posts?per_page=3&_embed';
+
+    try {
+        const response = await fetch(wpApiUrl);
+        if (!response.ok) throw new Error('Error al cargar el blog');
+        const posts = await response.json();
+
+        container.innerHTML = ''; // Limpiamos el mensaje de "Cargando"
+
+        posts.forEach(post => {
+            // Buscamos la imagen destacada (si la hay)
+            let imageUrl = '';
+            if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0].source_url) {
+                imageUrl = post._embedded['wp:featuredmedia'][0].source_url;
+            }
+
+            // Limpiamos el extracto (viene con etiquetas HTML)
+            const excerpt = post.excerpt.rendered.replace(/(<([^>]+)>)/gi, "").substring(0, 120) + '...';
+
+            // Formateamos la fecha
+            const date = new Date(post.date).toLocaleDateString(currentLang === 'es' ? 'es-ES' : 'en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            // Construimos la tarjeta
+            const article = document.createElement('article');
+            article.className = 'blog-card';
+            article.innerHTML = `
+                ${imageUrl ? `<div class="blog-image" style="background-image: url('${imageUrl}')"></div>` : ''}
+                <div class="blog-content">
+                    <span class="blog-date">${date}</span>
+                    <h3 class="blog-title"><a href="${post.link}" target="_blank">${post.title.rendered}</a></h3>
+                    <p class="blog-excerpt">${excerpt}</p>
+                </div>
+            `;
+            container.appendChild(article);
+        });
+
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = `<p>No se han podido cargar los artículos. <a href="https://lasinceridadestamalvista.com/" target="_blank">Visita el blog directamente</a>.</p>`;
+    }
+}
+
+// Llamamos a la función al cargar la página
+window.addEventListener('DOMContentLoaded', loadLatestBlogPosts);
