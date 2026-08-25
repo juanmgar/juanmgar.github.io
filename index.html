@@ -6,7 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Juan Manuel Sierra García">
-    <title>Juanma Sierra García - Dev + Biólogo</title>
+    
+    <!-- Etiquetas SEO y Redes Sociales (Open Graph & Twitter Cards) -->
+    <title>JuanMa Sierra García - Dev + Biólogo</title>
+    <meta name="description" content="Portfolio y currículum de JuanMa Sierra García (@juanmgar). Desarrollador Full-Stack y Biólogo.">
+    <meta property="og:title" content="JuanMa Sierra García - Dev + Biólogo">
+    <meta property="og:description" content="Portfolio y currículum de JuanMa Sierra García. Desarrollador Full-Stack, Biólogo y futuro Bioinformático.">
+    <meta property="og:image" content="https://juanmgar.github.io/img/juanmgar2024.jpg">
+    <meta property="og:url" content="https://juanmgar.github.io/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@juanmgar">
     
     <!-- Fuentes modernas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +34,18 @@
     <!-- Barra superior fija -->
     <header class="top-nav">
         <div class="nav-container">
-            <span class="logo">juanmgar</span>
+            <div class="logo-group">
+                <span class="logo">juanmgar</span>
+                <!-- Movimos el Job Title aquí para que siempre esté visible -->
+                <span id="jobTitle" class="header-job-title" itemprop="jobTitle">Dev + Biologist ↔ Bioinformatician wannabe</span>
+            </div>
             <div class="nav-actions">
                 <a href="#cv-section" class="nav-link" id="nav-exp">Mi Experiencia</a>
-                <button id="toggle-lang" class="lang-btn">Español</button>
+                <a href="#contact" class="nav-link" id="nav-contact">Contacto</a>
+                <!-- Botón Modo Oscuro -->
+                <button id="toggle-theme" class="icon-btn" aria-label="Cambiar modo oscuro"><i class="fas fa-moon"></i></button>
+                <!-- Botón Idioma -->
+                <button id="toggle-lang" class="btn lang-btn">Español</button>
             </div>
         </div>
     </header>
@@ -37,8 +55,8 @@
         <section class="hero" id="home">
             <div class="hero-content">
                 <div class="hero-text">
+                    <!-- Simplificamos el H1 al quitar el JobTitle que ahora está en la cabecera -->
                     <h1 id="hello">Hello, I'm <span itemprop="givenName">JuanMa</span> <span itemprop="familyName">Sierra García</span>!</h1>
-                    <h2 id="jobTitle" class="job-title" itemprop="jobTitle">Dev + Biologist ↔ Bioinformatician wannabe</h2>
                     
                     <div class="bio-cards">
                         <div class="bio-card">
@@ -48,7 +66,7 @@
                             <p id="p2">If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.</p>
                         </div>
                         <div class="bio-card">
-                            <p id="p3">If you want to know more about me or my current projects, I encourage you to contact me through my email (<span itemprop="email"><a href="mailto:juanmgar%20at%20gmail%20dot%20com">juanmgar at gmail dot com</a></span>) or any of my social networks.</p>
+                            <p id="p3">If you want to know more about me or my current projects, I encourage you to contact me through my email or any of my social networks.</p>
                         </div>
                     </div>
 
@@ -72,7 +90,6 @@
             <h2 class="section-title" id="sec-trayectoria">Mi Trayectoria</h2>
             
             <nav class="cv-index">
-                <!-- Por defecto marcamos Degrees como activo -->
                 <a id="catDegrees" href="#official-degrees" class="index-link active">Degrees</a>
                 <a id="catLanguages" href="#languages" class="index-link">Languages</a>
                 <a id="catCS" href="#cs" class="index-link">Computer Science</a>
@@ -81,19 +98,16 @@
             </nav>
 
             <div class="cv-grid">
-                <!-- Degrees (Activo por defecto) -->
                 <article id="official-degrees" class="cv-card active">
                     <h3 class="tagline">Official Degrees</h3>
                     <ul id="list-degrees" class="cv-list"></ul>
                 </article>
 
-                <!-- Languages -->
                 <article id="languages" class="cv-card">
                     <h3 class="tagline">Languages</h3>
                     <ul id="list-languages" class="cv-list"></ul>
                 </article>
 
-                <!-- Computer Science -->
                 <article id="cs" class="cv-card">
                     <h3 class="tagline">Computer Science</h3>
                     <ul id="list-it" class="cv-list"></ul>
@@ -104,7 +118,6 @@
                     </div>
                 </article>
 
-                <!-- Science -->
                 <article id="science" class="cv-card">
                     <h3 class="tagline">Science</h3>
                     <ul id="list-science" class="cv-list"></ul>
@@ -115,7 +128,6 @@
                     </div>
                 </article>
 
-                <!-- Other -->
                 <article id="misc" class="cv-card">
                     <h3 class="tagline">Other</h3>
                     <ul id="list-misc" class="cv-list"></ul>
@@ -127,11 +139,33 @@
                 </article>
             </div>
         </section>
+
+        <!-- Nueva Sección de Contacto -->
+        <section class="contact-section" id="contact">
+            <h2 class="section-title" id="sec-contacto">Hablemos</h2>
+            <div class="contact-card">
+                <form action="https://formspree.io/f/mdenrpap" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <label for="name" id="label-name">Nombre</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" id="label-email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" id="label-message">Mensaje</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-submit" id="btn-submit">Enviar Mensaje</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <div id="loading-spinner">
         <i class="fas fa-spinner"></i>
-        <p>Cargando datos...</p>
+        <p id="loading-text">Cargando datos...</p>
     </div>
 
     <!-- Script principal -->
