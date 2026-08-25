@@ -1,13 +1,25 @@
 /* ========================
-   BASE & VARIABLES (Amarillo Moderno)
+   BASE & VARIABLES (Modo Claro/Oscuro)
 ========================= */
 :root {
-    --bg-color: #e8d23b;       /* Tu amarillo característico */
-    --text-main: #111827;      /* Negro suave para textos principales y bordes */
-    --text-light: #374151;     /* Gris oscuro para textos secundarios */
-    --accent: #000000;         /* Negro puro para botones e iconos */
-    --card-bg: #ffffff;        /* Tarjetas en blanco para máximo contraste */
-    --border-color: #111827;   /* Bordes muy definidos */
+    --bg-color: #e8d23b;       
+    --text-main: #111827;      
+    --text-light: #374151;     
+    --accent: #000000;         
+    --card-bg: #ffffff;        
+    --border-color: #111827;
+    --shadow-color: rgba(17, 24, 39, 1);
+}
+
+/* Variables Modo Oscuro */
+body.dark-mode {
+    --bg-color: #111827;       /* Fondo negro azulado */
+    --text-main: #f9fafb;      /* Textos blancos */
+    --text-light: #d1d5db;     /* Textos secundarios en gris claro */
+    --accent: #e8d23b;         /* Tu amarillo ahora es el acento vibrante */
+    --card-bg: #1f2937;        /* Tarjetas gris oscuro */
+    --border-color: #e8d23b;   /* Bordes amarillos para contrastar */
+    --shadow-color: #e8d23b;   /* Sombra amarilla */
 }
 
 html {
@@ -20,11 +32,11 @@ html {
 *, *::before, *::after { box-sizing: inherit; }
 
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4 { margin: 0; font-weight: 800; color: var(--text-main); }
@@ -33,264 +45,162 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease; }
 
 /* ========================
-   NAVBAR
+   NAVBAR & HEADER
 ========================= */
 .top-nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
+    position: fixed; top: 0; left: 0; right: 0;
     background: var(--card-bg);
     border-bottom: 3px solid var(--border-color);
     z-index: 1000;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    max-width: 1200px; margin: 0 auto; padding: 1rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
 }
 
-.logo { 
-    font-weight: 800; 
-    font-size: 1.4rem; 
-    letter-spacing: -0.5px; 
+.logo-group { display: flex; align-items: baseline; gap: 1rem; }
+.logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; }
+.header-job-title { 
+    font-size: 0.95rem; font-weight: 600; color: var(--text-light); 
+    border-left: 2px solid var(--border-color); padding-left: 1rem;
 }
 
 .nav-actions { display: flex; gap: 1.5rem; align-items: center; }
-
 .nav-link { font-weight: 600; color: var(--text-main); }
 .nav-link:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
-.lang-btn {
-    background: var(--bg-color);
-    border: 2px solid var(--border-color);
-    padding: 0.4rem 1.2rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--text-main);
-    box-shadow: 2px 2px 0px rgba(17, 24, 39, 1);
+/* Botones Comunes y Navbar */
+.btn {
+    background: var(--card-bg); border: 2px solid var(--border-color);
+    padding: 0.4rem 1.2rem; border-radius: 8px; cursor: pointer;
+    font-weight: 700; color: var(--text-main);
+    box-shadow: 2px 2px 0px var(--shadow-color);
     transition: all 0.1s ease;
 }
-.lang-btn:hover { 
-    background: var(--text-main); 
-    color: var(--bg-color);
-    transform: translate(-1px, -1px);
-    box-shadow: 3px 3px 0px rgba(17, 24, 39, 1);
+.btn:hover {
+    background: var(--text-main); color: var(--card-bg);
+    transform: translate(-1px, -1px); box-shadow: 3px 3px 0px var(--shadow-color);
 }
-.lang-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0px rgba(17, 24, 39, 1);
+.btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px var(--shadow-color); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; transform: none; }
+
+.icon-btn {
+    background: transparent; border: none; font-size: 1.5rem; 
+    color: var(--text-main); cursor: pointer; transition: transform 0.2s;
 }
+.icon-btn:hover { transform: scale(1.1); color: var(--accent); }
 
 /* ========================
    HERO SECTION
 ========================= */
 .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 120px 2rem 4rem; /* Top padding para la navbar fija */
-    max-width: 1200px;
-    margin: 0 auto;
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 120px 2rem 4rem; max-width: 1200px; margin: 0 auto;
 }
 
-.hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-}
-
-.hero-text h1 { font-size: 3.8rem; line-height: 1.1; margin-bottom: 0.5rem; letter-spacing: -1.5px; }
-.job-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; background: var(--card-bg); display: inline-block; padding: 0.2rem 0.5rem; border: 2px solid var(--border-color); border-radius: 6px; }
+.hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.hero-text h1 { font-size: 3.8rem; line-height: 1.1; margin-bottom: 2rem; letter-spacing: -1.5px; }
 
 .bio-cards { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
 
-/* Estilo unificado para todas las tarjetas (Bio y CV) */
-.bio-card, .cv-card {
-    background: var(--card-bg);
-    padding: 2rem;
-    border-radius: 12px;
+/* Tarjetas Globales (Neo-Brutalismo) */
+.bio-card, .cv-card, .contact-card {
+    background: var(--card-bg); padding: 2rem; border-radius: 12px;
     border: 3px solid var(--border-color);
-    box-shadow: 6px 6px 0px rgba(17, 24, 39, 1); /* Sombra sólida neo-brutalista */
+    box-shadow: 6px 6px 0px var(--shadow-color);
     color: var(--text-light);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
-
-.bio-card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px rgba(17, 24, 39, 1);
-}
-
+.bio-card:hover, .contact-card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--shadow-color); }
 .bio-card p { font-size: 1.05rem; }
 .bio-card p:last-child { margin-bottom: 0; }
 
-/* Redes Sociales */
-.social-links { 
-    display: flex; 
-    gap: 1.5rem; 
-    font-size: 2rem; 
-    margin-top: 1rem; 
-    justify-content: flex-start;
-}
+.social-links { display: flex; gap: 1.5rem; font-size: 2rem; margin-top: 1rem; }
 .social-links a { color: var(--text-main); }
-.social-links a:hover { transform: translateY(-5px); }
+.social-links a:hover { transform: translateY(-5px); color: var(--accent); }
 
 /* Imagen de Perfil */
 .hero-image-container { position: relative; display: flex; justify-content: center; }
 .profile-photo {
-    width: 350px; height: 350px;
-    object-fit: cover;
+    width: 350px; height: 350px; object-fit: cover;
     border: 4px solid var(--border-color);
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* Forma orgánica */
-    box-shadow: 8px 8px 0px rgba(17, 24, 39, 1);
-    z-index: 2;
-    transition: border-radius 0.5s ease;
-    background: var(--card-bg);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    box-shadow: 8px 8px 0px var(--shadow-color);
+    background: var(--card-bg); transition: border-radius 0.5s ease;
 }
 .profile-photo:hover { border-radius: 50%; }
 
 /* ========================
-   CV SECTION (TABS)
+   SECCIONES CV Y CONTACTO
 ========================= */
-.cv-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 2rem 8rem;
-}
-
+.cv-section, .contact-section { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 4rem; }
+.contact-section { padding-bottom: 8rem; }
 .section-title { font-size: 3rem; text-align: center; margin-bottom: 3rem; letter-spacing: -1px; }
 
-.cv-index {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 4rem;
-}
+/* Pestañas (Tabs) */
+.cv-index { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 4rem; }
 .index-link {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    padding: 0.6rem 1.5rem;
-    border-radius: 30px;
-    color: var(--text-main);
-    font-weight: 700;
-    box-shadow: 3px 3px 0px rgba(17, 24, 39, 1);
+    background: var(--card-bg); border: 2px solid var(--border-color);
+    padding: 0.6rem 1.5rem; border-radius: 30px; color: var(--text-main); font-weight: 700;
+    box-shadow: 3px 3px 0px var(--shadow-color); transition: all 0.2s ease;
 }
-.index-link:hover { 
-    background: var(--text-main); 
-    color: var(--bg-color); 
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px rgba(17, 24, 39, 1);
-}
-.index-link.active {
-    background: var(--text-main); 
-    color: var(--bg-color); 
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px rgba(17, 24, 39, 1);
+.index-link:hover, .index-link.active {
+    background: var(--text-main); color: var(--card-bg);
+    transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--shadow-color);
 }
 
-.cv-grid {
-    display: block; 
-    max-width: 800px; 
-    margin: 0 auto;
-}
+.cv-grid { display: block; max-width: 800px; margin: 0 auto; }
+.cv-card { display: none; animation: aparecer 0.4s ease forwards; }
+.cv-card.active { display: block; }
+.cv-card .tagline { font-size: 1.4rem; border-bottom: 4px solid var(--text-main); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block; color: var(--text-main); }
 
-/* Ocultar todas las tarjetas de currículum por defecto */
-.cv-card {
-    display: none;
-    animation: aparecer 0.4s ease forwards;
-}
-
-/* Mostrar SOLO la tarjeta activa */
-.cv-card.active {
-    display: block;
-}
-
-.cv-card .tagline {
-    font-size: 1.4rem;
-    border-bottom: 4px solid var(--text-main);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
-    display: inline-block;
-}
-
-/* ========================
-   CV LIST ITEMS
-========================= */
-.cv-list li {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px dashed #d1d5db;
-}
+/* Listas CV */
+.cv-list li { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px dashed var(--text-light); }
 .cv-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-
 .cv-title { display: block; font-weight: 800; font-size: 1.1rem; color: var(--text-main); }
 .cv-institution { display: block; color: var(--text-light); font-size: 0.95rem; margin-top: 0.3rem; }
 .cv-year {
-    display: inline-block;
-    background: var(--bg-color);
-    padding: 0.2rem 0.8rem;
-    border-radius: 6px;
-    border: 2px solid var(--border-color);
-    font-size: 0.85rem;
-    color: var(--text-main);
-    margin-top: 0.8rem;
-    font-weight: 700;
+    display: inline-block; background: var(--bg-color); padding: 0.2rem 0.8rem;
+    border-radius: 6px; border: 2px solid var(--border-color); font-size: 0.85rem;
+    color: var(--text-main); margin-top: 0.8rem; font-weight: 700;
 }
 
 /* Paginador */
-.pager { 
-    display: flex; justify-content: space-between; align-items: center; 
-    margin-top: 1.5rem; padding-top: 1.5rem; 
-    border-top: 3px solid var(--border-color); 
-}
-.btn { 
-    background: var(--card-bg); 
-    border: 2px solid var(--text-main); 
-    padding: 0.5rem 1rem; 
-    border-radius: 8px; 
-    cursor: pointer; 
-    font-weight: 700;
-    box-shadow: 2px 2px 0px rgba(17,24,39,1);
-    transition: all 0.1s;
-    color: var(--text-main);
-}
-.btn:active {
-    box-shadow: 0px 0px 0px rgba(17,24,39,1);
-    transform: translate(2px, 2px);
-}
-.btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; transform: none; }
-.page-info { font-weight: 700; font-size: 0.95rem; }
+.pager { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 3px solid var(--border-color); }
+.page-info { font-weight: 700; font-size: 0.95rem; color: var(--text-main); }
 
-/* ========================
-   ANIMACIONES & SPINNER
-========================= */
-@keyframes aparecer {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+/* FORMULARIO DE CONTACTO */
+.contact-card { max-width: 800px; margin: 0 auto; }
+.contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group label { font-weight: 700; color: var(--text-main); }
+.form-group input, .form-group textarea {
+    width: 100%; padding: 1rem; border-radius: 8px;
+    border: 2px solid var(--border-color); background: var(--bg-color);
+    color: var(--text-main); font-family: inherit; font-size: 1rem; font-weight: 600;
+    transition: outline 0.2s, box-shadow 0.2s;
 }
+.form-group input:focus, .form-group textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--text-light); }
+.btn-submit { padding: 1rem; font-size: 1.1rem; margin-top: 1rem; }
 
-#loading-spinner {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: var(--bg-color);
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 2000;
-}
+/* SPINNER & ANIMACIONES */
+@keyframes aparecer { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+#loading-spinner { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-color); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; }
 #loading-spinner i { font-size: 4rem; color: var(--text-main); animation: spin 1s linear infinite; margin-bottom: 1rem; }
 #loading-spinner p { font-weight: 700; font-size: 1.2rem; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* ========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 @media (max-width: 992px) {
     .hero-content { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
     .bio-cards { text-align: left; }
     .social-links { justify-content: center; }
     .hero-text h1 { font-size: 3rem; }
     .profile-photo { width: 280px; height: 280px; }
+    .header-job-title { display: none; } /* Ocultamos el subtitulo en móviles para hacer espacio */
 }
-
 @media (max-width: 576px) {
     .nav-actions { flex-direction: column; gap: 0.5rem; }
     .hero { padding-top: 140px; }
