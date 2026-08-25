@@ -41,6 +41,7 @@
             </div>
             <div class="nav-actions">
                 <a href="#cv-section" class="nav-link" id="nav-exp">Mi Experiencia</a>
+                <a href="#blog" class="nav-link" id="nav-blog">Blog</a>
                 <a href="#contact" class="nav-link" id="nav-contact">Contacto</a>
                 <!-- Botón Modo Oscuro -->
                 <button id="toggle-theme" class="icon-btn" aria-label="Cambiar modo oscuro"><i class="fas fa-moon"></i></button>
@@ -137,6 +138,21 @@
                         <button class="next btn">Siguiente</button>
                     </div>
                 </article>
+            </div>
+        </section>
+
+        <!-- Sección del Blog (Cargado dinámicamente vía API) -->
+        <section class="blog-section" id="blog">
+            <h2 class="section-title" id="sec-blog">Últimos artículos en mi blog</h2>
+            <p class="blog-subtitle">Reflexiones desde <a href="https://lasinceridadestamalvista.com/" target="_blank">La sinceridad está mal vista</a></p>
+            
+            <div class="blog-grid" id="blog-posts-container">
+                <!-- Un pequeño spinner solo para el blog mientras carga -->
+                <div class="blog-loading">Cargando artículos...</div>
+            </div>
+            
+            <div class="blog-more">
+                <a href="https://lasinceridadestamalvista.com/" target="_blank" class="btn" id="btn-more-blog">Leer más en el blog</a>
             </div>
         </section>
 
