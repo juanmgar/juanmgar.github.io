@@ -17,7 +17,13 @@ const homepageTexts = {
     p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span itemprop="alternateName">juanmgar</span>. I'm from <span itemprop="birthPlace">Cadiz</span> but I live in <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Porto</span>, <span itemprop="addressRegion">Portugal</span></span>. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
     p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.`,
     p3: `If you want to know more about me or my current projects, I encourage you to contact me through my email (<span itemprop="email"><a href="mailto:juanmgar%20at%20gmail%20dot%20com">juanmgar at gmail dot com</a></span>) or any of my social networks.`,
-    langBtn: "Español"
+    langBtn: "Español",
+    navExp: "My Experience",
+    secTrayectoria: "My Path",
+    prevBtn: "Previous",
+    nextBtn: "Next",
+    pageText: "Page",
+    ofText: "of"
   },
   es: {
     hello: "¡Hola, soy <span itemprop='givenName'>JuanMa</span> <span itemprop='familyName'>Sierra García</span>!",
@@ -25,7 +31,13 @@ const homepageTexts = {
     p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias <span itemprop="alternateName">juanmgar</span>. Soy de <span itemprop="birthPlace">Cádiz</span> pero vivo en <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Oporto</span>, <span itemprop="addressRegion">Portugal</span></span>. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
     p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología entre Granada y Málaga. Aunque trabajé en laboratorios de análisis e investigación, la mayor parte de mi carrera profesional ha sido como desarrollador Full-Stack en Madrid y Asturias.`,
     p3: `Si quieres saber más sobre mí o mis proyectos actuales, te animo a contactarme por correo (<span itemprop="email"><a href="mailto:juanmgar%20at%20gmail%20dot%20com">juanmgar at gmail dot com</a></span>) o por cualquiera de mis redes sociales.`,
-    langBtn: "English"
+    langBtn: "English",
+    navExp: "Mi Experiencia",
+    secTrayectoria: "Mi Trayectoria",
+    prevBtn: "Anterior",
+    nextBtn: "Siguiente",
+    pageText: "Página",
+    ofText: "de"
   }
 };
 
@@ -45,14 +57,29 @@ const sectionTitles = {
    ======================= */
 function updateAllTexts() {
   const t = homepageTexts[currentLang];
+  
+  // Textos principales
   document.getElementById("hello").innerHTML = t.hello;
   document.getElementById("jobTitle").innerHTML = t.jobTitle;
   document.getElementById("p1").innerHTML = t.p1;
   document.getElementById("p2").innerHTML = t.p2;
   document.getElementById("p3").innerHTML = t.p3;
   document.getElementById("toggle-lang").textContent = t.langBtn;
+  
+  // Textos de navegación y títulos (Recién añadidos)
+  const navExp = document.getElementById("nav-exp");
+  if(navExp) navExp.textContent = t.navExp;
+  
+  const secTrayectoria = document.getElementById("sec-trayectoria");
+  if(secTrayectoria) secTrayectoria.textContent = t.secTrayectoria;
+
+  // Botones de paginación
+  document.querySelectorAll('.prev').forEach(btn => btn.textContent = t.prevBtn);
+  document.querySelectorAll('.next').forEach(btn => btn.textContent = t.nextBtn);
+
   document.documentElement.lang = currentLang;
 
+  // Renderiza el CV de nuevo con el idioma correcto
   if (cvData) renderCV(cvData, currentLang);
 }
 
@@ -81,14 +108,16 @@ function renderCategory(listEl, items, key) {
     for (let i = start; i < end; i++) listEl.appendChild(items[i]);
   }
 
-  // Ahora buscamos '.cv-card' en lugar de 'section'
   const section = listEl.closest('.cv-card');
   if (section) {
     const pageInfo = section.querySelector('.page-info');
     const prevBtn = section.querySelector('.prev');
     const nextBtn = section.querySelector('.next');
     const pagesCount = Math.max(1, Math.ceil(total / pageSize));
-    if (pageInfo) pageInfo.textContent = `Página ${pages[key] + 1} de ${pagesCount}`;
+    
+    const t = homepageTexts[currentLang]; // Traduce "Página X de Y"
+    if (pageInfo) pageInfo.textContent = `${t.pageText} ${pages[key] + 1} ${t.ofText} ${pagesCount}`;
+    
     if (prevBtn) prevBtn.disabled = pages[key] === 0;
     if (nextBtn) nextBtn.disabled = (end >= total);
   }
@@ -162,6 +191,7 @@ function renderCV(data, lang) {
   document.getElementById("catScience").textContent = s.catScience;
   document.getElementById("catOther").textContent = s.catOther;
 
+  // Resetea a la página 0 al cambiar de idioma y renderiza
   pages.cs = 0; pages.science = 0; pages.misc = 0;
   renderCategory(lists.it, itemsStore.cs, 'cs');
   renderCategory(lists.science, itemsStore.science, 'science');
@@ -206,7 +236,7 @@ fetch(SHEET_URL)
   .then(res => res.ok ? res.text() : Promise.reject("Failed"))
   .then(text => {
     cvData = JSON.parse(text.substr(47).slice(0, -2));
-    updateAllTexts();
+    updateAllTexts(); // <- Esto traduce todo por primera vez al iniciar
     document.getElementById('loading-spinner').style.display = 'none';
   })
   .catch(err => {
