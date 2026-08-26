@@ -61,13 +61,18 @@ const homepageTexts = {
   }
 };
 
+/* LA VARIABLE QUE HABÍA BORRADO POR ERROR */
+const sectionTitles = {
+  en: { catDegrees: "Official Degrees", catLanguages: "Languages", catCS: "Computer Science", catScience: "Science", catOther: "Other", degrees: "Official Degrees", languages: "Languages", cs: "Computer Science", sci: "Science", misc: "Other" },
+  es: { catDegrees: "Títulos Oficiales", catLanguages: "Idiomas", catCS: "Informática", catScience: "Ciencias", catOther: "Otros", degrees: "Títulos Oficiales", languages: "Idiomas", cs: "Informática", sci: "Ciencias", misc: "Otros" }
+};
+
 /* =======================
    Funciones de actualización (Idiomas) SEGURA
    ======================= */
 function updateAllTexts() {
   const t = homepageTexts[currentLang];
   
-  // Helpers para evitar errores si el ID no existe en el HTML
   const setHTML = (id, text) => { 
       const el = document.getElementById(id); 
       if(el) el.innerHTML = text; 
@@ -77,7 +82,6 @@ function updateAllTexts() {
       if(el) el.textContent = text; 
   };
 
-  // Textos de presentación
   setHTML("hello", t.hello);
   setHTML("p1", t.p1);
   setHTML("p2", t.p2);
@@ -85,7 +89,6 @@ function updateAllTexts() {
   setText("toggle-lang", t.langBtn);
   setText("loading-text", t.loading);
   
-  // Navegación y Títulos de sección
   setText("nav-exp", t.navExp);
   setText("nav-contact", t.navContact);
   setText("nav-blog", t.navBlog);
@@ -93,24 +96,21 @@ function updateAllTexts() {
   setText("sec-trayectoria", t.secTrayectoria);
   setText("sec-contacto", t.secContacto);
   
-  // Textos del Blog
   setText("sec-blog", t.secBlog);
   setHTML("blog-subtitle", t.blogSubtitle);
   setText("btn-more-blog", t.btnMoreBlog);
   
-  // Textos del formulario
   setText("label-name", t.labelName);
   setText("label-email", t.labelEmail);
   setText("label-message", t.labelMsg);
   setText("btn-submit", t.btnSubmit);
 
-  // Paginación
   document.querySelectorAll('.prev').forEach(btn => btn.textContent = t.prevBtn);
   document.querySelectorAll('.next').forEach(btn => btn.textContent = t.nextBtn);
 
   document.documentElement.lang = currentLang;
 
-  // Renderiza de nuevo el CV (Google Sheets) -> Ahora esto siempre se ejecutará
+  // Renderiza de nuevo el CV
   if (cvData) renderCV(cvData, currentLang);
 }
 
@@ -126,7 +126,6 @@ const themeBtn = document.getElementById('toggle-theme');
 if (themeBtn) {
     const icon = themeBtn.querySelector('i');
 
-    // Comprueba si el usuario ya tenía el modo oscuro guardado
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-mode');
         if(icon) icon.classList.replace('fa-moon', 'fa-sun');
@@ -181,10 +180,11 @@ function renderCategory(listEl, items, key) {
 }
 
 /* =======================
-   Render del CV
+   Render del CV Blindado
    ======================= */
 function renderCV(data, lang) {
-  const headers = data.table.cols.map(col => col.label.trim());
+  // Aseguramos que el encabezado no rompa si viene vacío
+  const headers = data.table.cols.map(col => (col.label || "").trim());
   const rows = data.table.rows;
 
   const colIndex = {
@@ -194,7 +194,12 @@ function renderCV(data, lang) {
     published: headers.indexOf("Published"), level: headers.indexOf("Level")
   };
 
-  const get = (row, idx) => row.c[idx]?.v || "";
+  // Lector a prueba de celdas vacías
+  const get = (row, idx) => {
+      if (!row || !row.c || !row.c[idx]) return "";
+      return String(row.c[idx].v || "");
+  };
+
   const lists = {
     degrees: document.getElementById("list-degrees"),
     languages: document.getElementById("list-languages"),
@@ -207,8 +212,8 @@ function renderCV(data, lang) {
 
   const degreeLevelOrder = { master: 1, specialist: 2, bachelor: 3, cfgs: 4, school: 5 };
   
-  const degreeRows = rows.filter(r => get(r, colIndex.published)?.toLowerCase() === "yes" && get(r, colIndex.type)?.toLowerCase() === "degree");
-  degreeRows.sort((a, b) => (degreeLevelOrder[get(a, colIndex.level)?.toLowerCase()] || 99) - (degreeLevelOrder[get(b, colIndex.level)?.toLowerCase()] || 99));
+  const degreeRows = rows.filter(r => get(r, colIndex.published).toLowerCase() === "yes" && get(r, colIndex.type).toLowerCase() === "degree");
+  degreeRows.sort((a, b) => (degreeLevelOrder[get(a, colIndex.level).toLowerCase()] || 99) - (degreeLevelOrder[get(b, colIndex.level).toLowerCase()] || 99));
 
   degreeRows.forEach(row => {
     const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
@@ -220,10 +225,10 @@ function renderCV(data, lang) {
   itemsStore = { languages: [], cs: [], science: [], misc: [] };
 
   rows.forEach(row => {
-    if (get(row, colIndex.published)?.toLowerCase() !== "yes" || get(row, colIndex.type)?.toLowerCase() === "degree") return;
+    if (get(row, colIndex.published).toLowerCase() !== "yes" || get(row, colIndex.type).toLowerCase() === "degree") return;
     const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
-    const area = get(row, colIndex.area)?.toLowerCase();
-    const type = get(row, colIndex.type)?.toLowerCase();
+    const area = get(row, colIndex.area).toLowerCase();
+    const type = get(row, colIndex.type).toLowerCase();
 
     const li = document.createElement("li");
     li.innerHTML = `<span class="cv-title">${title}</span> <span class="cv-institution">${get(row, colIndex.institution)}</span> <span class="cv-year">${get(row, colIndex.year)}</span>`;
@@ -298,6 +303,7 @@ fetch(SHEET_URL)
     if(spinner) spinner.style.display = 'none';
   })
   .catch(err => {
+    console.error("Error al procesar el CV:", err);
     const listDegrees = document.getElementById("list-degrees");
     if(listDegrees) listDegrees.innerHTML = "<li>Error al cargar CV.</li>";
     const spinner = document.getElementById('loading-spinner');
@@ -311,7 +317,6 @@ async function loadLatestBlogPosts() {
     const container = document.getElementById('blog-posts-container');
     if (!container) return;
 
-    // La API de WordPress devuelve los últimos posts. _embed incluye imágenes destacadas.
     const wpApiUrl = 'https://lasinceridadestamalvista.com/wp-json/wp/v2/posts?per_page=3&_embed';
 
     try {
@@ -319,24 +324,20 @@ async function loadLatestBlogPosts() {
         if (!response.ok) throw new Error('Error al cargar el blog');
         const posts = await response.json();
 
-        container.innerHTML = ''; // Limpiamos el mensaje de "Cargando"
+        container.innerHTML = ''; 
 
         posts.forEach(post => {
-            // Buscamos la imagen destacada (si la hay)
             let imageUrl = '';
             if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0].source_url) {
                 imageUrl = post._embedded['wp:featuredmedia'][0].source_url;
             }
 
-            // Limpiamos el extracto (viene con etiquetas HTML)
             const excerpt = post.excerpt.rendered.replace(/(<([^>]+)>)/gi, "").substring(0, 120) + '...';
 
-            // Formateamos la fecha
             const date = new Date(post.date).toLocaleDateString(currentLang === 'es' ? 'es-ES' : 'en-US', {
                 year: 'numeric', month: 'long', day: 'numeric'
             });
 
-            // Construimos la tarjeta
             const article = document.createElement('article');
             article.className = 'blog-card';
             article.innerHTML = `
@@ -356,5 +357,4 @@ async function loadLatestBlogPosts() {
     }
 }
 
-// Llamamos a la función al cargar la página
 window.addEventListener('DOMContentLoaded', loadLatestBlogPosts);
