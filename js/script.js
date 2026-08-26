@@ -13,14 +13,18 @@ let cvData = null;
 const homepageTexts = {
   en: {
     hello: "Hello, I'm <span itemprop='givenName'>JuanMa</span> <span itemprop='familyName'>Sierra García</span>!",
-    p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span itemprop="alternateName">juanmgar</span>. I'm from <span itemprop="birthPlace">Cadiz</span> but I live in <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Porto</span>, <span itemprop="addressRegion">Portugal</span></span>. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
-    p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.`,
-    p3: `If you want to know more about me or my current projects, I encourage you to contact me through my email or any of my social networks.`,
+    p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span itemprop="alternateName">juanmgar</span>. I'm from <span itemprop="birthPlace">Cadiz</span>, but I live in <s>Cadiz, Granada, Malaga, Cordoba, Ciudad Real, Madrid, Gijon, Porto</s> <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Oviedo</span>, <span itemprop="addressRegion">Asturias</span></span>. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
+    p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology. After my time working as a DevOps and Full-Stack developer, I have graduated as a Computer Engineer. Recently, my main interest lies in the operationalization and study of fringe discourse on social networks. You can check out my Master's Thesis on the subject <a href="https://digibuo.uniovi.es/dspace/handle/10651/85090" target="_blank">right here</a>.`,
+    p3: `If you want to know more about me or my current projects, I encourage you to contact me through the form below or any of my social networks.`,
     langBtn: "Español",
     navExp: "My Experience",
     navContact: "Contact",
+    navBlog: "Blog",
     secTrayectoria: "My Path",
     secContacto: "Let's Talk",
+    secBlog: "Latest posts on my blog",
+    blogSubtitle: "Reflections from <a href='https://lasinceridadestamalvista.com/' target='_blank'>La sinceridad está mal vista</a>",
+    btnMoreBlog: "Read more on the blog",
     labelName: "Name",
     labelEmail: "Email",
     labelMsg: "Message",
@@ -33,14 +37,18 @@ const homepageTexts = {
   },
   es: {
     hello: "¡Hola, soy <span itemprop='givenName'>JuanMa</span> <span itemprop='familyName'>Sierra García</span>!",
-    p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias <span itemprop="alternateName">juanmgar</span>. Soy de <span itemprop="birthPlace">Cádiz</span> pero vivo en <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Oporto</span>, <span itemprop="addressRegion">Portugal</span></span>. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
-    p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología entre Granada y Málaga. Aunque trabajé en laboratorios de análisis e investigación, la mayor parte de mi carrera profesional ha sido como desarrollador Full-Stack en Madrid y Asturias.`,
+    p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias <span itemprop="alternateName">juanmgar</span>. Soy de <span itemprop="birthPlace">Cádiz</span>, pero vivo en <s>Cádiz, Granada, Málaga, Córdoba, Ciudad Real, Madrid, Gijón, Oporto</s> <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Oviedo</span>, <span itemprop="addressRegion">Asturias</span></span>. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
+    p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología. Tras mi etapa como desarrollador DevOps y Full-Stack, me he graduado como Ingeniero Informático Superior. En los últimos meses me he volcado en la operacionalización y el estudio del discurso <em>fringe</em> en redes sociales. De hecho, puedes consultar mi Trabajo Fin de Máster sobre el tema <a href="https://digibuo.uniovi.es/dspace/handle/10651/85090" target="_blank">justo aquí</a>.`,
     p3: `Si quieres saber más sobre mí o mis proyectos actuales, te animo a contactarme a través del formulario o por cualquiera de mis redes sociales.`,
     langBtn: "English",
     navExp: "Mi Experiencia",
     navContact: "Contacto",
+    navBlog: "Blog",
     secTrayectoria: "Mi Trayectoria",
     secContacto: "Hablemos",
+    secBlog: "Últimos artículos en mi blog",
+    blogSubtitle: "Reflexiones desde <a href='https://lasinceridadestamalvista.com/' target='_blank'>La sinceridad está mal vista</a>",
+    btnMoreBlog: "Leer más en el blog",
     labelName: "Nombre",
     labelEmail: "Correo Electrónico",
     labelMsg: "Mensaje",
@@ -53,17 +61,13 @@ const homepageTexts = {
   }
 };
 
-const sectionTitles = {
-  en: { catDegrees: "Official Degrees", catLanguages: "Languages", catCS: "Computer Science", catScience: "Science", catOther: "Other", degrees: "Official Degrees", languages: "Languages", cs: "Computer Science", sci: "Science", misc: "Other" },
-  es: { catDegrees: "Títulos Oficiales", catLanguages: "Idiomas", catCS: "Informática", catScience: "Ciencias", catOther: "Otros", degrees: "Títulos Oficiales", languages: "Idiomas", cs: "Informática", sci: "Ciencias", misc: "Otros" }
-};
-
 /* =======================
    Funciones de actualización (Idiomas)
    ======================= */
 function updateAllTexts() {
   const t = homepageTexts[currentLang];
   
+  // Textos de presentación
   document.getElementById("hello").innerHTML = t.hello;
   document.getElementById("p1").innerHTML = t.p1;
   document.getElementById("p2").innerHTML = t.p2;
@@ -71,22 +75,32 @@ function updateAllTexts() {
   document.getElementById("toggle-lang").textContent = t.langBtn;
   document.getElementById("loading-text").textContent = t.loading;
   
+  // Navegación y Títulos de sección
   if(document.getElementById("nav-exp")) document.getElementById("nav-exp").textContent = t.navExp;
   if(document.getElementById("nav-contact")) document.getElementById("nav-contact").textContent = t.navContact;
+  if(document.getElementById("nav-blog")) document.getElementById("nav-blog").textContent = t.navBlog;
+  
   if(document.getElementById("sec-trayectoria")) document.getElementById("sec-trayectoria").textContent = t.secTrayectoria;
+  if(document.getElementById("sec-contacto")) document.getElementById("sec-contacto").textContent = t.secContacto;
+  
+  // Textos del Blog
+  if(document.getElementById("sec-blog")) document.getElementById("sec-blog").textContent = t.secBlog;
+  if(document.getElementById("blog-subtitle")) document.getElementById("blog-subtitle").innerHTML = t.blogSubtitle;
+  if(document.getElementById("btn-more-blog")) document.getElementById("btn-more-blog").textContent = t.btnMoreBlog;
   
   // Textos del formulario
-  if(document.getElementById("sec-contacto")) document.getElementById("sec-contacto").textContent = t.secContacto;
   if(document.getElementById("label-name")) document.getElementById("label-name").textContent = t.labelName;
   if(document.getElementById("label-email")) document.getElementById("label-email").textContent = t.labelEmail;
   if(document.getElementById("label-message")) document.getElementById("label-message").textContent = t.labelMsg;
   if(document.getElementById("btn-submit")) document.getElementById("btn-submit").textContent = t.btnSubmit;
 
+  // Paginación
   document.querySelectorAll('.prev').forEach(btn => btn.textContent = t.prevBtn);
   document.querySelectorAll('.next').forEach(btn => btn.textContent = t.nextBtn);
 
   document.documentElement.lang = currentLang;
 
+  // Renderiza de nuevo el CV (Google Sheets)
   if (cvData) renderCV(cvData, currentLang);
 }
 
