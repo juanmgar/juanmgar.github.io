@@ -62,37 +62,47 @@ const homepageTexts = {
 };
 
 /* =======================
-   Funciones de actualización (Idiomas)
+   Funciones de actualización (Idiomas) SEGURA
    ======================= */
 function updateAllTexts() {
   const t = homepageTexts[currentLang];
   
+  // Helpers para evitar errores si el ID no existe en el HTML
+  const setHTML = (id, text) => { 
+      const el = document.getElementById(id); 
+      if(el) el.innerHTML = text; 
+  };
+  const setText = (id, text) => { 
+      const el = document.getElementById(id); 
+      if(el) el.textContent = text; 
+  };
+
   // Textos de presentación
-  document.getElementById("hello").innerHTML = t.hello;
-  document.getElementById("p1").innerHTML = t.p1;
-  document.getElementById("p2").innerHTML = t.p2;
-  document.getElementById("p3").innerHTML = t.p3;
-  document.getElementById("toggle-lang").textContent = t.langBtn;
-  document.getElementById("loading-text").textContent = t.loading;
+  setHTML("hello", t.hello);
+  setHTML("p1", t.p1);
+  setHTML("p2", t.p2);
+  setHTML("p3", t.p3);
+  setText("toggle-lang", t.langBtn);
+  setText("loading-text", t.loading);
   
   // Navegación y Títulos de sección
-  if(document.getElementById("nav-exp")) document.getElementById("nav-exp").textContent = t.navExp;
-  if(document.getElementById("nav-contact")) document.getElementById("nav-contact").textContent = t.navContact;
-  if(document.getElementById("nav-blog")) document.getElementById("nav-blog").textContent = t.navBlog;
+  setText("nav-exp", t.navExp);
+  setText("nav-contact", t.navContact);
+  setText("nav-blog", t.navBlog);
   
-  if(document.getElementById("sec-trayectoria")) document.getElementById("sec-trayectoria").textContent = t.secTrayectoria;
-  if(document.getElementById("sec-contacto")) document.getElementById("sec-contacto").textContent = t.secContacto;
+  setText("sec-trayectoria", t.secTrayectoria);
+  setText("sec-contacto", t.secContacto);
   
   // Textos del Blog
-  if(document.getElementById("sec-blog")) document.getElementById("sec-blog").textContent = t.secBlog;
-  if(document.getElementById("blog-subtitle")) document.getElementById("blog-subtitle").innerHTML = t.blogSubtitle;
-  if(document.getElementById("btn-more-blog")) document.getElementById("btn-more-blog").textContent = t.btnMoreBlog;
+  setText("sec-blog", t.secBlog);
+  setHTML("blog-subtitle", t.blogSubtitle);
+  setText("btn-more-blog", t.btnMoreBlog);
   
   // Textos del formulario
-  if(document.getElementById("label-name")) document.getElementById("label-name").textContent = t.labelName;
-  if(document.getElementById("label-email")) document.getElementById("label-email").textContent = t.labelEmail;
-  if(document.getElementById("label-message")) document.getElementById("label-message").textContent = t.labelMsg;
-  if(document.getElementById("btn-submit")) document.getElementById("btn-submit").textContent = t.btnSubmit;
+  setText("label-name", t.labelName);
+  setText("label-email", t.labelEmail);
+  setText("label-message", t.labelMsg);
+  setText("btn-submit", t.btnSubmit);
 
   // Paginación
   document.querySelectorAll('.prev').forEach(btn => btn.textContent = t.prevBtn);
@@ -100,7 +110,7 @@ function updateAllTexts() {
 
   document.documentElement.lang = currentLang;
 
-  // Renderiza de nuevo el CV (Google Sheets)
+  // Renderiza de nuevo el CV (Google Sheets) -> Ahora esto siempre se ejecutará
   if (cvData) renderCV(cvData, currentLang);
 }
 
@@ -113,25 +123,27 @@ document.getElementById("toggle-lang").addEventListener("click", () => {
    Modo Oscuro (Dark Mode)
    ======================= */
 const themeBtn = document.getElementById('toggle-theme');
-const icon = themeBtn.querySelector('i');
+if (themeBtn) {
+    const icon = themeBtn.querySelector('i');
 
-// Comprueba si el usuario ya tenía el modo oscuro guardado
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
-    icon.classList.replace('fa-moon', 'fa-sun');
-}
-
-themeBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    
-    if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        icon.classList.replace('fa-moon', 'fa-sun');
-    } else {
-        localStorage.setItem('theme', 'light');
-        icon.classList.replace('fa-sun', 'fa-moon');
+    // Comprueba si el usuario ya tenía el modo oscuro guardado
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(icon) icon.classList.replace('fa-moon', 'fa-sun');
     }
-});
+
+    themeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            if(icon) icon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            localStorage.setItem('theme', 'light');
+            if(icon) icon.classList.replace('fa-sun', 'fa-moon');
+        }
+    });
+}
 
 /* =======================
    Paginación
@@ -202,7 +214,7 @@ function renderCV(data, lang) {
     const title = lang === "es" ? get(row, colIndex.spanish) : get(row, colIndex.english);
     const li = document.createElement("li");
     li.innerHTML = `<span class="cv-title">${title}</span> <span class="cv-institution">${get(row, colIndex.institution)}</span> <span class="cv-year">${get(row, colIndex.year)}</span>`;
-    lists.degrees.appendChild(li);
+    if(lists.degrees) lists.degrees.appendChild(li);
   });
 
   itemsStore = { languages: [], cs: [], science: [], misc: [] };
@@ -223,23 +235,26 @@ function renderCV(data, lang) {
   });
 
   const s = sectionTitles[lang];
-  document.querySelector('#official-degrees .tagline').textContent = s.degrees;
-  document.querySelector('#languages .tagline').textContent = s.languages;
-  document.querySelector('#cs .tagline').textContent = s.cs;
-  document.querySelector('#science .tagline').textContent = s.sci;
-  document.querySelector('#misc .tagline').textContent = s.misc;
+  const setElText = (selector, text) => { const el = document.querySelector(selector); if(el) el.textContent = text; };
+  const setIdText = (id, text) => { const el = document.getElementById(id); if(el) el.textContent = text; };
 
-  document.getElementById("catDegrees").textContent = s.catDegrees;
-  document.getElementById("catLanguages").textContent = s.catLanguages;
-  document.getElementById("catCS").textContent = s.catCS;
-  document.getElementById("catScience").textContent = s.catScience;
-  document.getElementById("catOther").textContent = s.catOther;
+  setElText('#official-degrees .tagline', s.degrees);
+  setElText('#languages .tagline', s.languages);
+  setElText('#cs .tagline', s.cs);
+  setElText('#science .tagline', s.sci);
+  setElText('#misc .tagline', s.misc);
+
+  setIdText("catDegrees", s.catDegrees);
+  setIdText("catLanguages", s.catLanguages);
+  setIdText("catCS", s.catCS);
+  setIdText("catScience", s.catScience);
+  setIdText("catOther", s.catOther);
 
   pages.cs = 0; pages.science = 0; pages.misc = 0;
   renderCategory(lists.it, itemsStore.cs, 'cs');
   renderCategory(lists.science, itemsStore.science, 'science');
   renderCategory(lists.misc, itemsStore.misc, 'misc');
-  itemsStore.languages.forEach(li => lists.languages.appendChild(li));
+  itemsStore.languages.forEach(li => { if(lists.languages) lists.languages.appendChild(li); });
 }
 
 /* =======================
@@ -253,7 +268,8 @@ document.addEventListener('click', (e) => {
     
     e.target.classList.add('active');
     const targetId = e.target.getAttribute('href').substring(1);
-    document.getElementById(targetId).classList.add('active');
+    const targetEl = document.getElementById(targetId);
+    if(targetEl) targetEl.classList.add('active');
   }
 
   if (e.target.classList.contains('prev') || e.target.classList.contains('next')) {
@@ -278,11 +294,14 @@ fetch(SHEET_URL)
   .then(text => {
     cvData = JSON.parse(text.substr(47).slice(0, -2));
     updateAllTexts(); 
-    document.getElementById('loading-spinner').style.display = 'none';
+    const spinner = document.getElementById('loading-spinner');
+    if(spinner) spinner.style.display = 'none';
   })
   .catch(err => {
-    document.getElementById("list-degrees").innerHTML = "<li>Error al cargar CV.</li>";
-    document.getElementById('loading-spinner').style.display = 'none';
+    const listDegrees = document.getElementById("list-degrees");
+    if(listDegrees) listDegrees.innerHTML = "<li>Error al cargar CV.</li>";
+    const spinner = document.getElementById('loading-spinner');
+    if(spinner) spinner.style.display = 'none';
   });
 
 /* =======================
