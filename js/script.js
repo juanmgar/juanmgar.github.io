@@ -317,7 +317,7 @@ async function loadLatestBlogPosts() {
     const container = document.getElementById('blog-posts-container');
     if (!container) return;
 
-    const wpApiUrl = 'https://lasinceridadestamalvista.com/wp-json/wp/v2/posts?per_page=3&_embed';
+    const wpApiUrl = 'https://blog.juanmasierragarcia.eu/wp-json/wp/v2/posts?per_page=3&_embed';
 
     try {
         const response = await fetch(wpApiUrl);
@@ -353,7 +353,7 @@ async function loadLatestBlogPosts() {
 
     } catch (error) {
         console.error(error);
-        container.innerHTML = `<p>No se han podido cargar los artículos. <a href="https://lasinceridadestamalvista.com/" target="_blank">Visita el blog directamente</a>.</p>`;
+        container.innerHTML = `<p>No se han podido cargar los artículos. <a href="https://blog.juanmasierragarcia.eu/" target="_blank">Visita el blog directamente</a>.</p>`;
     }
 }
 
