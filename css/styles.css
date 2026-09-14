@@ -122,11 +122,11 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 ========================= */
 .social-links {
     position: fixed;
-    left: 20px; /* Distancia desde el borde izquierdo */
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
-    flex-direction: column; /* Coloca los iconos en vertical */
+    flex-direction: column; 
     gap: 1.5rem;
     font-size: 1.5rem;
     background: var(--card-bg);
@@ -158,12 +158,13 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 @media (max-width: 992px) {
     .social-links {
         top: auto;
-        bottom: 20px; /* Fijo en la parte inferior */
+        bottom: 20px; 
         left: 50%;
+        right: auto;
         transform: translateX(-50%);
-        flex-direction: row; /* Vuelve a ser horizontal */
+        flex-direction: row; 
         padding: 0.8rem 1.5rem;
-        border-radius: 30px; /* Forma redondeada de píldora */
+        border-radius: 30px;
         gap: 1.5rem;
     }
 }
