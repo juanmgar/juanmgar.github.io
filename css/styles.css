@@ -117,9 +117,56 @@ a { text-decoration: none; color: var(--accent); transition: transform 0.2s ease
 .bio-card p { font-size: 1.05rem; }
 .bio-card p:last-child { margin-bottom: 0; }
 
-.social-links { display: flex; gap: 1.5rem; font-size: 2rem; margin-top: 1rem; }
-.social-links a { color: var(--text-main); }
-.social-links a:hover { transform: translateY(-5px); color: var(--accent); }
+/* ========================
+   REDES SOCIALES FLOTANTES (Neo-Brutalismo)
+========================= */
+.social-links {
+    position: fixed;
+    left: 20px; /* Distancia desde el borde izquierdo */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column; /* Coloca los iconos en vertical */
+    gap: 1.5rem;
+    font-size: 1.5rem;
+    background: var(--card-bg);
+    padding: 1.5rem 1rem;
+    border: 3px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0px var(--shadow-color);
+    z-index: 1000;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.social-links a { 
+    color: var(--text-main); 
+    display: flex;
+    justify-content: center;
+    transition: transform 0.2s ease, color 0.2s ease; 
+}
+
+/* Efecto al pasar el ratón */
+.social-links a:hover { 
+    transform: translateY(-4px) scale(1.1); 
+    color: var(--accent); 
+}
+
+/* 
+   ADAPTACIÓN PARA MÓVILES
+   Convierte la barra en una "píldora" horizontal fijada abajo 
+*/
+@media (max-width: 992px) {
+    .social-links {
+        top: auto;
+        bottom: 20px; /* Fijo en la parte inferior */
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row; /* Vuelve a ser horizontal */
+        padding: 0.8rem 1.5rem;
+        border-radius: 30px; /* Forma redondeada de píldora */
+        gap: 1.5rem;
+    }
+}
 
 /* Imagen de Perfil */
 .hero-image-container { position: relative; display: flex; justify-content: center; }
