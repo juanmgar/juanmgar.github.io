@@ -12,6 +12,7 @@ let cvData = null;
    ======================= */
 const homepageTexts = {
   en: {
+    home: "Bio",
     hello: "Hello, I'm <span itemprop='givenName'>JuanMa</span> <span itemprop='familyName'>Sierra García</span>!",
     p1: `Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span itemprop="alternateName">juanmgar</span>. I'm from <span itemprop="birthPlace">Cadiz</span>, but I live in <s>Granada, Malaga, Cordoba, Ciudad Real, Madrid, Gijon, Porto</s> <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Oviedo</span>, <span itemprop="addressRegion">Asturias</span></span>. I love the music of Los Planetas and I accumulate shelves of books read and to be read.`,
     p2: `If you have come this far you may be interested to know that I studied Biology and Biotechnology. After my time working as a DevOps and Full-Stack developer, I have graduated as a Computer Engineer. Recently, my main interest lies in the operationalization and study of fringe discourse on social networks. You can check out my Master's Thesis on the subject <a href="https://digibuo.uniovi.es/dspace/handle/10651/85090" target="_blank">right here</a>.`,
@@ -36,6 +37,7 @@ const homepageTexts = {
     loading: "Loading data..."
   },
   es: {
+    home: "Bio",
     hello: "¡Hola, soy <span itemprop='givenName'>JuanMa</span> <span itemprop='familyName'>Sierra García</span>!",
     p1: `Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias <span itemprop="alternateName">juanmgar</span>. Soy de <span itemprop="birthPlace">Cádiz</span>, pero vivo en <s>Granada, Málaga, Córdoba, Ciudad Real, Madrid, Gijón, Oporto</s> <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Oviedo</span>, <span itemprop="addressRegion">Asturias</span></span>. Me encanta la música de Los Planetas y acumulo estanterías de libros leídos y por leer.`,
     p2: `Si has llegado hasta aquí, quizá te interese saber que estudié Biología y Biotecnología. Tras mi etapa como desarrollador DevOps y Full-Stack, me he graduado como Ingeniero Informático Superior. En los últimos meses me he volcado en la operacionalización y el estudio del discurso <em>fringe</em> en redes sociales. De hecho, puedes consultar mi Trabajo Fin de Máster sobre el tema <a href="https://digibuo.uniovi.es/dspace/handle/10651/85090" target="_blank">justo aquí</a>.`,
