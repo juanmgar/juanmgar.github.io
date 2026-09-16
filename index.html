@@ -1,33 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Juan Manuel Sierra García">
-    
-    <!-- Etiquetas SEO y Redes Sociales (Open Graph & Twitter Cards) -->
+
+    <!-- SEO -->
     <title>JuanMa Sierra García - Ingeniero Informático + Biólogo</title>
-    <meta name="description" content="Portfolio y currículum de JuanMa Sierra García (@juanmgar). Desarrollador Full-Stack y Biólogo.">
-    <meta property="og:title" content="JuanMa Sierra García - Ingeniero Informático + Biólogo">
-    <meta property="og:description" content="Portfolio y currículum de JuanMa Sierra García. Desarrollador Full-Stack, Biólogo y futuro Bioinformático.">
-    <meta property="og:image" content="https://juanmgar.github.io/img/juanmgar2024.jpg">
-    <meta property="og:url" content="https://juanmgar.github.io/">
+    <meta name="description"
+        content="Portfolio y currículum de JuanMa Sierra García (@juanmgar). Desarrollador Full-Stack y Biólogo.">
+    <link rel="canonical" href="https://juanmasierragarcia.eu/">
+    <link rel="icon" href="favicon.ico">
+
+    <!-- Redes Sociales (Open Graph & Twitter Cards) -->
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:url" content="https://juanmasierragarcia.eu/">
+    <meta property="og:title" content="JuanMa Sierra García - Ingeniero Informático + Biólogo">
+    <meta property="og:description"
+        content="Portfolio y currículum de JuanMa Sierra García. Desarrollador Full-Stack, Biólogo y futuro Bioinformático.">
+    <meta property="og:image" content="https://juanmasierragarcia.eu/img/juanmgar2024.jpg">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:creator" content="@juanmgar">
-    
-    <!-- Fuentes modernas -->
+
+    <!-- Tema: se aplica antes de pintar la página para evitar el parpadeo en modo claro -->
+    <script>
+        (function () {
+            var theme = null;
+            try { theme = localStorage.getItem('theme'); } catch (e) { /* almacenamiento bloqueado */ }
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (theme === 'dark' || (theme === null && prefersDark)) {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <!-- CSS Propio -->
     <link rel="stylesheet" href="css/styles.css">
-    
+
     <!-- Iconos -->
     <script src="https://kit.fontawesome.com/8bcd15b62e.js" crossorigin="anonymous"></script>
+
+    <!-- Datos estructurados (sustituyen a los microdatos itemprop) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "JuanMa Sierra García",
+        "alternateName": ["juanmgar", "Juan Manuel Sierra García"],
+        "jobTitle": "Ingeniero Informático Superior y Biólogo",
+        "url": "https://juanmasierragarcia.eu/",
+        "image": "https://juanmasierragarcia.eu/img/juanmgar2024.jpg",
+        "birthPlace": { "@type": "Place", "name": "Cádiz" },
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Oviedo",
+            "addressRegion": "Asturias",
+            "addressCountry": "ES"
+        },
+        "sameAs": [
+            "https://github.com/juanmgar",
+            "https://scholar.google.com/citations?user=ejSgG7AAAAAJ",
+            "https://www.linkedin.com/in/juanmgar",
+            "https://twitter.com/juanmgar",
+            "https://bsky.app/profile/juanmgar.bsky.social",
+            "https://blog.juanmasierragarcia.eu/"
+        ]
+    }
+    </script>
 </head>
 
 <body>
@@ -36,158 +83,190 @@
         <div class="nav-container">
             <div class="logo-group">
                 <span class="logo">JuanMa Sierra</span>
-                <!-- Movimos el Job Title aquí para que siempre esté visible -->
-                <span id="jobTitle" class="header-job-title" itemprop="jobTitle">Ingeniero Informático Superior & Biólogo</span>
+                <span class="header-job-title" data-i18n="jobTitle">Ingeniero Informático Superior &amp; Biólogo</span>
             </div>
             <div class="nav-actions">
-                <a href="#home" class="nav-link" id="home">Bio</a>
-                <a href="#cv-section" class="nav-link" id="nav-exp">Mi Experiencia</a>
-                <a href="#blog" class="nav-link" id="nav-blog">Blog</a>
-                <a href="#contact" class="nav-link" id="nav-contact">Contacto</a>
-                <!-- Botón Modo Oscuro -->
-                <button id="toggle-theme" class="icon-btn" aria-label="Cambiar modo oscuro"><i class="fas fa-moon"></i></button>
+                <nav class="main-nav" aria-label="Navegación principal" data-i18n-attr="aria-label:navLabel">
+                    <a href="#home" class="nav-link" data-i18n="navHome">Bio</a>
+                    <a href="#cv-section" class="nav-link" data-i18n="navExp">Mi Experiencia</a>
+                    <a href="#blog" class="nav-link" data-i18n="navBlog">Blog</a>
+                    <a href="#contact" class="nav-link" data-i18n="navContact">Contacto</a>
+                </nav>
+                <!-- Botón Modo Oscuro: dos iconos alternados por CSS (funciona con Font Awesome en modo fuente o SVG) -->
+                <button type="button" id="toggle-theme" class="icon-btn" aria-pressed="false" aria-label="Modo oscuro"
+                    data-i18n-attr="aria-label:themeLabel">
+                    <span class="theme-icon theme-icon--moon" aria-hidden="true"><i class="fas fa-moon"></i></span>
+                    <span class="theme-icon theme-icon--sun" aria-hidden="true"><i class="fas fa-sun"></i></span>
+                </button>
                 <!-- Botón Idioma -->
-                <button id="toggle-lang" class="btn lang-btn">Español</button>
+                <button type="button" id="toggle-lang" class="btn lang-btn" lang="en" data-i18n="langBtn"
+                    data-i18n-attr="lang:langBtnLang">English</button>
             </div>
         </div>
     </header>
 
-    <div class="social-links">
-        <a itemprop="sameAs" target="_blank" href="https://github.com/juanmgar" title="GitHub"><i class="fab fa-github"></i></a>
+    <ul class="social-links" aria-label="Redes sociales" data-i18n-attr="aria-label:socialLabel">
+        <li><a href="https://github.com/juanmgar" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><i
+                    class="fab fa-github" aria-hidden="true"></i></a></li>
+        <li><a href="https://scholar.google.com/citations?user=ejSgG7AAAAAJ&amp;hl=es" target="_blank" rel="noopener"
+                aria-label="Google Scholar" title="Google Scholar"><i class="fab fa-google-scholar"
+                    aria-hidden="true"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/juanmgar" target="_blank" rel="noopener" aria-label="LinkedIn"
+                title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+        <li><a href="https://twitter.com/juanmgar" target="_blank" rel="noopener" aria-label="Twitter"
+                title="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+        <li><a href="https://bsky.app/profile/juanmgar.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky"
+                title="Bluesky"><i class="fa-brands fa-bluesky" aria-hidden="true"></i></a></li>
+    </ul>
 
-       <a itemprop="sameAs" target="_blank" href="https://scholar.google.com/citations?user=ejSgG7AAAAAJ&hl=es" title="Google Scholar"><i class="fab fa-google-scholar"></i></a>
-
-        <a itemprop="sameAs" target="_blank" href="https://www.linkedin.com/in/juanmgar" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a itemprop="sameAs" target="_blank" href="https://twitter.com/juanmgar" title="Twitter"><i class="fab fa-twitter"></i></a>
-        <a itemprop="sameAs" target="_blank" href="https://bsky.app/profile/juanmgar.bsky.social" title="Bluesky"><i class="fa-brands fa-bluesky"></i></a>
-    </div>
-
-    <main itemscope itemtype="http://schema.org/Person">
+    <main>
         <!-- Hero Section (Presentación) -->
         <section class="hero" id="home">
             <div class="hero-content">
                 <div class="hero-text">
-                    <!-- Simplificamos el H1 al quitar el JobTitle que ahora está en la cabecera -->
-                    <h1 id="hello">Hello, I'm <span itemprop="givenName">JuanMa</span> <span itemprop="familyName">Sierra García</span>!</h1>
-                    
+                    <h1 data-i18n="hello">¡Hola, soy JuanMa Sierra García!</h1>
+
                     <div class="bio-cards">
                         <div class="bio-card">
-                            <p id="p1">Well, as you might guess, my name is JuanMa Sierra Garcia, aka <span itemprop="alternateName">juanmgar</span>. I'm from <span itemprop="birthPlace">Cadiz</span> but I live in <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="addressLocality">Porto</span>, <span itemprop="addressRegion">Portugal</span></span>. I love the music of Los Planetas and I accumulate shelves of books read and to be read.</p>
+                            <p data-i18n-html="p1">Bueno, como habrás adivinado, me llamo JuanMa Sierra García, alias
+                                juanmgar. Soy de Cádiz, pero vivo en <s>Granada, Málaga, Córdoba, Ciudad Real, Madrid,
+                                    Gijón, Oporto</s> Oviedo, Asturias. Me encanta la música de Los Planetas y acumulo
+                                estanterías de libros leídos y por leer.</p>
                         </div>
                         <div class="bio-card">
-                            <p id="p2">If you have come this far you may be interested to know that I studied Biology and Biotechnology between Granada and Malaga. Although I had some work experience in research and analysis laboratories, I have developed most of my professional career between Madrid and Asturias as a Full-Stack developer.</p>
+                            <p data-i18n-html="p2">Si has llegado hasta aquí, quizá te interese saber que estudié
+                                Biología y Biotecnología. Tras mi etapa como desarrollador DevOps y Full-Stack, me he
+                                graduado como Ingeniero Informático Superior. En los últimos meses me he volcado en la
+                                operacionalización y el estudio del discurso <em>fringe</em> en redes sociales. De
+                                hecho, puedes consultar mi Trabajo Fin de Máster sobre el tema <a
+                                    href="https://digibuo.uniovi.es/dspace/handle/10651/85090" target="_blank"
+                                    rel="noopener">justo aquí</a>.</p>
                         </div>
                         <div class="bio-card">
-                            <p id="p3">If you want to know more about me or my current projects, I encourage you to contact me through my email or any of my social networks.</p>
+                            <p data-i18n="p3">Si quieres saber más sobre mí o mis proyectos actuales, te animo a
+                                contactarme a través del formulario o por cualquiera de mis redes sociales.</p>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="hero-image-container">
-                    <img itemprop="image" src="img/juanmgar2024.jpg" class="profile-photo" alt="Fotografía de JuanMa Sierra García aka juanmgar">
+                    <img src="img/juanmgar2024.jpg" class="profile-photo" width="242" height="276"
+                        alt="Fotografía de JuanMa Sierra García, alias juanmgar" data-i18n-attr="alt:photoAlt">
                 </div>
             </div>
         </section>
 
-        <!-- CV Section (Cargado por JS) -->
+        <!-- CV Section (datos cargados por JS desde Google Sheets) -->
         <section class="cv-section" id="cv-section">
-            <h2 class="section-title" id="sec-trayectoria">Mi Trayectoria</h2>
-            
-            <nav class="cv-index">
-                <a id="catDegrees" href="#official-degrees" class="index-link active">Degrees</a>
-                <a id="catLanguages" href="#languages" class="index-link">Languages</a>
-                <a id="catCS" href="#cs" class="index-link">Computer Science</a>
-                <a id="catScience" href="#science" class="index-link">Science</a>
-                <a id="catOther" href="#misc" class="index-link">Other</a>
-            </nav>
+            <h2 class="section-title" data-i18n="secPath">Mi Trayectoria</h2>
+
+            <div class="cv-index" role="tablist" aria-label="Categorías del currículum"
+                data-i18n-attr="aria-label:tablistLabel">
+                <button type="button" role="tab" id="tab-degrees" class="index-link" aria-controls="official-degrees"
+                    aria-selected="true" data-i18n="catDegrees">Títulos Oficiales</button>
+                <button type="button" role="tab" id="tab-languages" class="index-link" aria-controls="languages"
+                    aria-selected="false" tabindex="-1" data-i18n="catLanguages">Idiomas</button>
+                <button type="button" role="tab" id="tab-cs" class="index-link" aria-controls="cs" aria-selected="false"
+                    tabindex="-1" data-i18n="catCS">Informática</button>
+                <button type="button" role="tab" id="tab-science" class="index-link" aria-controls="science"
+                    aria-selected="false" tabindex="-1" data-i18n="catScience">Ciencias</button>
+                <button type="button" role="tab" id="tab-misc" class="index-link" aria-controls="misc"
+                    aria-selected="false" tabindex="-1" data-i18n="catOther">Otros</button>
+            </div>
+
+            <noscript>
+                <p class="cv-status">Activa JavaScript para ver el currículum y los últimos artículos del blog.</p>
+            </noscript>
 
             <div class="cv-grid">
-                <article id="official-degrees" class="cv-card active">
-                    <h3 class="tagline">Official Degrees</h3>
-                    <ul id="list-degrees" class="cv-list"></ul>
-                </article>
+                <div id="official-degrees" class="cv-card" role="tabpanel" aria-labelledby="tab-degrees"
+                    data-category="degrees">
+                    <h3 class="tagline" data-i18n="catDegrees">Títulos Oficiales</h3>
+                    <ul class="cv-list" aria-live="polite"></ul>
+                </div>
 
-                <article id="languages" class="cv-card">
-                    <h3 class="tagline">Languages</h3>
-                    <ul id="list-languages" class="cv-list"></ul>
-                </article>
+                <div id="languages" class="cv-card" role="tabpanel" aria-labelledby="tab-languages"
+                    data-category="languages" hidden>
+                    <h3 class="tagline" data-i18n="catLanguages">Idiomas</h3>
+                    <ul class="cv-list" aria-live="polite"></ul>
+                </div>
 
-                <article id="cs" class="cv-card">
-                    <h3 class="tagline">Computer Science</h3>
-                    <ul id="list-it" class="cv-list"></ul>
-                    <div class="pager">
-                        <button class="prev btn">Anterior</button>
-                        <span class="page-info"></span>
-                        <button class="next btn">Siguiente</button>
+                <div id="cs" class="cv-card" role="tabpanel" aria-labelledby="tab-cs" data-category="cs" hidden>
+                    <h3 class="tagline" data-i18n="catCS">Informática</h3>
+                    <ul class="cv-list" aria-live="polite"></ul>
+                    <div class="pager" hidden>
+                        <button type="button" class="btn" data-page="prev" data-i18n="prev">Anterior</button>
+                        <span class="page-info" aria-live="polite"></span>
+                        <button type="button" class="btn" data-page="next" data-i18n="next">Siguiente</button>
                     </div>
-                </article>
+                </div>
 
-                <article id="science" class="cv-card">
-                    <h3 class="tagline">Science</h3>
-                    <ul id="list-science" class="cv-list"></ul>
-                    <div class="pager">
-                        <button class="prev btn">Anterior</button>
-                        <span class="page-info"></span>
-                        <button class="next btn">Siguiente</button>
+                <div id="science" class="cv-card" role="tabpanel" aria-labelledby="tab-science" data-category="science"
+                    hidden>
+                    <h3 class="tagline" data-i18n="catScience">Ciencias</h3>
+                    <ul class="cv-list" aria-live="polite"></ul>
+                    <div class="pager" hidden>
+                        <button type="button" class="btn" data-page="prev" data-i18n="prev">Anterior</button>
+                        <span class="page-info" aria-live="polite"></span>
+                        <button type="button" class="btn" data-page="next" data-i18n="next">Siguiente</button>
                     </div>
-                </article>
+                </div>
 
-                <article id="misc" class="cv-card">
-                    <h3 class="tagline">Other</h3>
-                    <ul id="list-misc" class="cv-list"></ul>
-                    <div class="pager">
-                        <button class="prev btn">Anterior</button>
-                        <span class="page-info"></span>
-                        <button class="next btn">Siguiente</button>
+                <div id="misc" class="cv-card" role="tabpanel" aria-labelledby="tab-misc" data-category="misc" hidden>
+                    <h3 class="tagline" data-i18n="catOther">Otros</h3>
+                    <ul class="cv-list" aria-live="polite"></ul>
+                    <div class="pager" hidden>
+                        <button type="button" class="btn" data-page="prev" data-i18n="prev">Anterior</button>
+                        <span class="page-info" aria-live="polite"></span>
+                        <button type="button" class="btn" data-page="next" data-i18n="next">Siguiente</button>
                     </div>
-                </article>
+                </div>
             </div>
         </section>
 
-        <!-- Sección del Blog (Cargado dinámicamente vía API) -->
+        <!-- Sección del Blog (cargado vía API de WordPress) -->
         <section class="blog-section" id="blog">
-            <h2 class="section-title" id="sec-blog">Últimos artículos en mi blog</h2>
-            <p class="blog-subtitle" id="blog-subtitle">Reflexiones desde <a href="https://blog.juanmasierragarcia.eu/" target="_blank">La sinceridad está mal vista</a></p>
-            
-            <div class="blog-grid" id="blog-posts-container">
-                <!-- Un pequeño spinner solo para el blog mientras carga -->
-                <div class="blog-loading">Cargando artículos...</div>
-            </div>
-            
+            <h2 class="section-title" data-i18n="secBlog">Últimos artículos en mi blog</h2>
+            <p class="blog-subtitle" data-i18n-html="blogSubtitle">Reflexiones desde <a
+                    href="https://blog.juanmasierragarcia.eu/" target="_blank" rel="noopener">La sinceridad está mal
+                    vista</a></p>
+
+            <div class="blog-grid" id="blog-posts-container"></div>
+
             <div class="blog-more">
-                <a href="https://blog.juanmasierragarcia.eu/" target="_blank" class="btn" id="btn-more-blog">Leer más en el blog</a>
+                <a href="https://blog.juanmasierragarcia.eu/" target="_blank" rel="noopener" class="btn"
+                    data-i18n="btnMoreBlog">Leer más en el blog</a>
             </div>
         </section>
 
-        <!-- Nueva Sección de Contacto -->
+        <!-- Sección de Contacto -->
         <section class="contact-section" id="contact">
-            <h2 class="section-title" id="sec-contacto">Hablemos</h2>
+            <h2 class="section-title" data-i18n="secContact">Hablemos</h2>
             <div class="contact-card">
                 <form action="https://formspree.io/f/mdenrpap" method="POST" class="contact-form">
                     <div class="form-group">
-                        <label for="name" id="label-name">Nombre</label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name" data-i18n="labelName">Nombre</label>
+                        <input type="text" id="name" name="name" autocomplete="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="email" id="label-email">Correo Electrónico</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email" data-i18n="labelEmail">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" autocomplete="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="message" id="label-message">Mensaje</label>
+                        <label for="message" data-i18n="labelMsg">Mensaje</label>
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-submit" id="btn-submit">Enviar Mensaje</button>
+                    <!-- Campo trampa antispam de Formspree: los humanos no lo ven -->
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+                        style="display:none">
+                    <button type="submit" class="btn btn-submit" data-i18n="btnSubmit">Enviar Mensaje</button>
                 </form>
             </div>
         </section>
     </main>
 
-    <div id="loading-spinner">
-        <i class="fas fa-spinner"></i>
-        <p id="loading-text">Cargando datos...</p>
-    </div>
-
     <!-- Script principal -->
     <script src="js/script.js"></script>
 </body>
+
 </html>
